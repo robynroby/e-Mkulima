@@ -9,11 +9,12 @@
     border-bottom: rgba(0, 0, 0, .1) 0.5px solid;
     position: fixed;
     margin-bottom: 20px;
+    z-index: 999;
 
     .logo {
         font-size: 1.6rem;
 
-        span{
+        span {
             color: #17bf4d;
             font-weight: bold;
         }

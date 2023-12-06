@@ -10,7 +10,7 @@ function Navbar() {
         <nav className="navbar">
             <div className="logo">Green<span>X</span></div>
             <ul className="navLinks">
-                <li><a href="/">Home</a></li>
+                <li><Link to={"/"}>Home</Link></li>
                 <li><Link to={'/products'}>Products</Link></li>
                 <li><a href="/#account">Account</a></li>
             </ul>

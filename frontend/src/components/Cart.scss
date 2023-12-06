@@ -1,19 +1,10 @@
 .cart {
+    display: flex;
+    justify-content: space-between;
     padding: 20px;
 
-    h2 {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    p {
-        font-size: 16px;
-        margin: 10px 0;
-    }
-
     .cart-items {
-        // display: flex;
-        // flex-direction: column;
+        flex: 2;
 
         .cart-item {
             padding: 10px;
@@ -32,16 +23,30 @@
 
                 .item-name {
                     font-weight: bold;
-                    font-size: 22px;
+                    font-size: 20px;
                 }
 
-                .item-price {
-                    font-size: 22px;
+                .item-by{
+                    font-size: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
 
+                    .item-price {
+                        font-size: 18px;
+                    }
                 }
 
                 .item-quantity {
                     font-size: 14px;
+                }
+
+                .remove-link {
+                    margin-left: 400px;
+                    font-size: 12px;
+                    color: #000;
+                    text-decoration: underline;
+                    cursor: pointer;
                 }
             }
 
@@ -51,33 +56,53 @@
 
                 img {
                     width: 200px;
-                    // height: 100px;
                     margin: 10px 20px;
                 }
             }
         }
     }
 
-    .cart-summary {
+    .order-summary {
+        flex: 1;
+        padding: 20px;
         margin-top: 20px;
-        display: flex;
-        flex-direction: column;
 
-        .total {
+        h3 {
             font-size: 18px;
-            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .separator-line {
+            border: 1px solid #000000;
+            margin: 20px 0;
+        }
+
+        .totals {
+            font-size: 16px;
+            margin-bottom: 20px;
+
+            .total-space{
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .subtotal,
+            .shipping,
+            .total {
+                margin-bottom: 10px;
+            }
         }
 
         .checkout-button {
-            background-color: #007bff;
+            background-color: #0D0D0D;
             color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
             margin-top: 10px;
-            width: fit-content;
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            // width: fit-content;
         }
     }
 }
