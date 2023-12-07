@@ -105,4 +105,17 @@
             // width: fit-content;
         }
     }
+
+    // Media Query for smaller screen sizes
+    @media (max-width: 768px) {
+        flex-direction: column;
+
+        .cart-items {
+            flex: none;
+        }
+
+        .order-summary {
+            margin-top: 0;
+        }
+    }
 }
