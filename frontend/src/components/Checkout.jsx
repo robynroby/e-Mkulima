@@ -77,7 +77,7 @@ const CheckoutPage = () => {
                 <hr className="separator-line" />
                 <div className="total">
                     <div className="total-text">Total</div>
-                    <div className="total-price">Ksh{calculateTotal()}</div>
+                    <div className="total-price">Ksh {calculateTotal()}</div>
                 </div>
             </div>
         </div>

@@ -7,6 +7,8 @@ import Cart from './components/Cart'
 import SingleProductPage from './components/SingleProductPage';
 import HomePage from './components/HomePage';
 import CheckoutPage from './components/Checkout';
+import SignUp from './components/AccessControl/Signup';
+import Login from './components/AccessControl/Login';
 
 
 const App = () => {
@@ -21,6 +23,8 @@ const App = () => {
             <Route path="/products" element={<AllProducts />} />
             <Route path='/single-product' element={<SingleProductPage />} />
             <Route path='/checkout' element={<CheckoutPage />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="login" element={<Login />} />
           </Routes>
         </div>
         <Footer />
