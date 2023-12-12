@@ -1,40 +1,45 @@
-import React, { createContext, useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { createContext, useReducer, useContext } from 'react';
 
-export const DataContext = createContext()
+const AuthContext = createContext();
 
-export const ConText = (props) => {
-    const [cart, setCart] = useState([])
-    const [isAuth, setIsAuth] = useState(false)
-
-    const checkAuth = () => {
-        axios.get("http://localhost:8000/isAuth", {
-            headers: {
-                "x-access-token": localStorage.getItem("Ecomtoken")
-            }
-        }).then((response) => {
-            //  console.log()
-            if (response.data.login) {
-                setIsAuth(true)
-
-            }
-        })
-
+const authReducer = (state, action) => {
+    switch (action.type) {
+        case 'LOGIN':
+            return { ...state, isAuthenticated: true, user: action.payload };
+        case 'LOGOUT':
+            return { ...state, isAuthenticated: false, user: null };
+        default:
+            return state;
     }
+};
 
-    useEffect(() => {
-        checkAuth()
+const AuthProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(authReducer, {
+        isAuthenticated: false,
+        user: null,
+    });
 
+    const login = (user) => {
+        dispatch({ type: 'LOGIN', payload: user });
+    };
 
-    }, [])
-    setInterval(checkAuth, 1000);
+    const logout = () => {
+        dispatch({ type: 'LOGOUT' });
+    };
 
     return (
-        <>
-            <DataContext.Provider value={{ cart, setCart, isAuth }}>
-                {props.children}
-            </DataContext.Provider>
+        <AuthContext.Provider value={{ ...state, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
 
-        </>
-    )
-}
+const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};
+
+export { AuthProvider, useAuth };
