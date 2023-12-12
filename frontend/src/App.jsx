@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState } from 'react';
+import { createBrowserRouter, RouterProvider, useNavigate, Outlet } from 'react-router-dom';
 import './App.css'
 import AllProducts from './components/AllProducts'
 import Footer from './components/Footer'
@@ -9,27 +10,92 @@ import HomePage from './components/HomePage';
 import CheckoutPage from './components/Checkout';
 import SignUp from './components/AccessControl/Signup';
 import Login from './components/AccessControl/Login';
+import ProtectedRoute from './context/ProtectedRoute';
+import { UserContext } from './context/DataContext';
 
 
 const App = () => {
-  return (
-    <Router>
+  const getToken = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const [isAuth, setisAuth] = useState(getToken());
+
+  const Layout = () => {
+    return (
       <div className="App">
         <Navbar />
         <div className="main-container">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/products" element={<AllProducts />} />
-            <Route path='/single-product' element={<SingleProductPage />} />
-            <Route path='/checkout' element={<CheckoutPage />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="login" element={<Login />} />
-          </Routes>
+          <ProtectedRoute>
+            <Outlet />
+          </ProtectedRoute>
         </div>
         <Footer />
       </div>
-    </Router>
+    )
+  }
+
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <HomePage />
+        },
+        {
+          path: "/products",
+          element: <AllProducts />
+        },
+        {
+          path: "/cart",
+          element: <Cart />
+        },
+        {
+          path: "/single-product",
+          element: <SingleProductPage />
+        },
+        {
+          path: "/checkout",
+          element: <CheckoutPage />
+        },
+      ]
+
+    },
+
+    {
+      path: "/login",
+      element: <Login />
+    },
+    {
+      path: "/register",
+      element: <SignUp />
+    },
+
+    // TODO: Add a 404 page
+    // {
+    //   path: "*",
+    //   element: <NotFound />
+    // }
+
+  ]);
+
+  return (
+
+    <UserContext.Provider value={{ isAuth, setisAuth }}>
+
+
+      <RouterProvider router={router} />
+
+    </UserContext.Provider>
+
   )
 }
 

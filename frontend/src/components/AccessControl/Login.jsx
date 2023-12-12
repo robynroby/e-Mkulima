@@ -30,7 +30,6 @@ const Login = () => {
                 // Handle successful login, e.g., redirect to a new page
                 console.log('Login successful', data);
                 localStorage.setItem('token', data.accessToken);
-                localStorage.setItem('user', JSON.stringify(data.user));
                 navigate('/')
             } else {
                 // Handle login error
