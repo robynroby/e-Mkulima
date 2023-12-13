@@ -2,12 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #EFF2F6;
-    margin: 40px;
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-    }
+    margin: 50px;
 }
 
 .signup-container {
@@ -16,12 +11,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
-
-    .error-message {
-        color: red;
-        font-size: 11px;
-        margin-bottom: 10px;
-    }
 
     h2 {
         text-align: center;
@@ -79,9 +68,5 @@
                 }
             }
         }
-    }
-
-    @media (max-width: 768px) {
-        width: 150%;
     }
 }
