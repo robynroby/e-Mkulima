@@ -15,23 +15,6 @@ const SingleProductPage = () => {
         setQuantity(quantity + 1);
     };
 
-    // const { productId } = useParams(); // Use React Router's useParams to get the productId from the URL
-
-    // // Sample product details, replace with actual product data
-    // const product = {
-    //     id: productId,
-    //     title: 'Sample Product',
-    //     price: '$100',
-    //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ...',
-    //     seller: 'Sample Seller',
-    //     images: [
-    //         'image1.jpg',
-    //         'image2.jpg',
-    //         'image3.jpg',
-    //         'image4.jpg',
-    //     ],
-    // };
-
     return (
         <div className="single-product-page">
             <div className="product-images">

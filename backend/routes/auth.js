@@ -69,5 +69,34 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// logout user and invalidate token
+// router.post('/logout', async (req, res) => {
+//     try {
+//         const user = await User.findOne({
+//             username: req.body.username
+//         });
+
+//         if (!user) {
+//             return res.status(401).json("Wrong User Name");
+//         }
+
+//         const accessToken = jwt.sign(
+//             {
+//                 id: user._id,
+//                 isAdmin: user.isAdmin,
+//             },
+//             process.env.JWT_SEC,
+//             { expiresIn: "1ms" }
+//         );
+
+//         const { password, ...others } = user._doc;
+//         res.status(200).json({ ...others, accessToken });
+
+//     } catch (err) {
+//         console.error('Logout error:', err);
+//         res.status(500).json('Internal server error');
+//     }
+// });
+
 
 module.exports = router;

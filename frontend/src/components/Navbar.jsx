@@ -1,11 +1,16 @@
 // import React, { useContext } from 'react'
 import React from 'react';
 import './Navbar.scss';
-import { FaShoppingCart } from 'react-icons/fa';
-
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 
 function Navbar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login')
+    }
     return (
         <nav className="navbar">
             <div className="logo">Green<span>X</span></div>
@@ -19,12 +24,10 @@ function Navbar() {
                     <img src="/cart.svg" alt="" />
                     <span>3</span>
                 </Link>
-                <Link href="/#login">Logout</Link>
+                <Link onClick={handleLogout}>Logout</Link>
             </div>
         </nav>
     );
 };
-
-
 
 export default Navbar;
