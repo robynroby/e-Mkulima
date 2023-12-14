@@ -19,8 +19,7 @@ function Navbar() {
                     <img src="/cart.svg" alt="" />
                     <span>3</span>
                 </Link>
-                <a href="/#login">Login</a>
-                <a href="/#signup">Sign Up</a>
+                <Link href="/#login">Logout</Link>
             </div>
         </nav>
     );
