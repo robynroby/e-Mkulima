@@ -12,6 +12,7 @@ import SignUp from './components/AccessControl/Signup';
 import Login from './components/AccessControl/Login';
 import ProtectedRoute from './context/ProtectedRoute';
 import { UserContext } from './context/DataContext';
+import Account from './components/Account';
 
 
 const App = () => {
@@ -66,6 +67,10 @@ const App = () => {
           path: "/checkout",
           element: <CheckoutPage />
         },
+        {
+          path: "/account",
+          element: <Account />
+        }
       ]
 
     },
