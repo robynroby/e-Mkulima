@@ -7,10 +7,11 @@ const verifyToken = (req, res, next) => {
         jwt.verify(token, process.env.JWT_SEC, (err, user) => {
             if (err) res.status(403).json("Token is not valid!");
             req.user = user;
+            console.log(user)
             next();
         });
     } else {
-        return res.status(401).json("You are not authenticated!");
+        return res.status(401).json("You are not authenticated! and no token");
     }
 };
 
@@ -29,7 +30,7 @@ const verifyTokenAndAdmin = (req, res, next) => {
         if (req.user.isAdmin) {
             next();
         } else {
-            res.status(403).json("You are not alowed to do that!");
+            res.status(403).json("You are not allowed to do that!");
         }
     });
 };
