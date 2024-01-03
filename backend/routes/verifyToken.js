@@ -41,4 +41,3 @@ module.exports = {
     verifyTokenAndAdmin,
 };
 
-// i must do complete adding the product section
