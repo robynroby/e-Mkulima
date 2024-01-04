@@ -8,8 +8,8 @@ const {
 const router = require("express").Router();
 
 //CREATE
-
-router.post("/", verifyTokenAndAdmin, async (req, res) => {
+// TODO:posting a product should be done by the admin only
+router.post("/", async (req, res) => {
     const newProduct = new Product(req.body);
 
     try {
