@@ -13,6 +13,7 @@ import Login from './components/AccessControl/Login';
 import ProtectedRoute from './context/ProtectedRoute';
 import { UserContext } from './context/DataContext';
 import Account from './components/Account';
+import AdminPage from './components/AccessControl/AdminPage';
 
 
 const App = () => {
@@ -70,6 +71,10 @@ const App = () => {
         {
           path: "/account",
           element: <Account />
+        },
+        {
+          path:"/admin",
+          element: <AdminPage />
         }
       ]
 

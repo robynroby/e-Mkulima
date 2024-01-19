@@ -16,4 +16,3 @@ const CardProducts = ({ product }) => {
 };
 
 export default CardProducts;
-// The above code is the card component that will be used to display the products in the home page. The card component will be used in the Home component.  
