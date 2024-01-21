@@ -8,17 +8,21 @@ const {
 const router = require("express").Router();
 
 //CREATE
-// TODO:posting a product should be done by the admin only
-router.post("/",verifyTokenAndAdmin, async (req, res) => {
+router.post("/", verifyTokenAndAdmin, async (req, res) => {
     const newProduct = new Product(req.body);
 
     try {
         const savedProduct = await newProduct.save();
         res.status(200).json(savedProduct);
     } catch (err) {
-        res.status(500).json(err);
+        if (err.code === 11000) {
+            res.status(400).json({ error: "Duplicate product title. Choose a unique title." });
+        } else {
+            res.status(500).json({ error: "Internal Server Error", details: err.message });
+        }
     }
 });
+
 
 //UPDATE
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {

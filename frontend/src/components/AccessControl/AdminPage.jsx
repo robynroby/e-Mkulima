@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { jwtDecode } from "jwt-decode";
-import './AdminPage.scss';
+import './AC.scss';
+
 
 
 const AdminPage = () => {
     const [formData, setFormData] = useState({
         title: '',
         desc: '',
-        price: '',
-        img: null,
+        img: '',
+        price: 0,
     });
 
+    const [errors, setErrors] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
-//   decode token from local storage to check if admin is true
+    //   decode token from local storage to check if admin is true
     useEffect(() => {
         const token = localStorage.getItem('token');
         const decodedToken = jwtDecode(token);
@@ -21,78 +24,75 @@ const AdminPage = () => {
             setIsAdmin(true);
         }
     }
-    , []);
-
-
+        , []);
 
     const handleInputChange = (e) => {
-        const { title, value, files } = e.target;
-
-        setFormData({
-            ...formData,
-            [title]: files ? files[0] : value,
-        });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleFormSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
         try {
-            const { title, desc, price, img } = formData;
-
-            const data = new FormData();
-            data.append('title', title);
-            data.append('desc', desc);
-            data.append('price', price);
-            data.append('image', img);
-
-            // Get the token from local storage
+            // the price should be a number
+            formData.price = Number(formData.price);
+            console.log(formData);
             const token = localStorage.getItem('token');
+            console.log(token)
+            console.log(JSON.stringify(formData))
 
-            await fetch('http://localhost:5000/api/products', {
+            const response = await fetch('http://localhost:5000/api/products', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'token': `Bearer ${token}`,
                 },
-                body: data,
+                body: JSON.stringify(formData),
             });
 
-            // Add any success handling here
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+            }
 
+            alert('Product added successfully!');
         } catch (error) {
             console.error('Error adding product:', error);
-            // Add error handling here
+            setErrors(error.message);
         }
     };
+
+
+
 
     if (!isAdmin) {
         return <div>You do not have permission to access this page.</div>;
     }
 
     return (
-        <div>
-            <h2>Add Product (Admin Page)</h2>
-            <form onSubmit={handleFormSubmit}>
-                <div>
-                    <label>Title:</label>
-                    <input type="text" name="name" value={formData.title} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label>Description:</label>
-                    <textarea name="description" value={formData.desc} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label>Price:</label>
-                    <input type="number" name="price" value={formData.price} onChange={handleInputChange} />
-                </div>
-                <div>
-                    <label>Image:</label>
-                    <input type="file" name="image" onChange={handleInputChange} />
-                </div>
-                <div>
-                    <button type="submit">Add Product</button>
-                </div>
-            </form>
+        <div className="signup-page">
+            <div className="signup-container">
+                <h2>Add Product (Admin Page)</h2>
+                <p className="error-message">{errors}</p>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <input type="text" value={formData.title} name="title" required placeholder='Title' onChange={handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                        <input type="text" value={formData.desc} name="desc" required placeholder='Description' onChange={handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                        <input type="number" value={formData.price} name="price" required placeholder='Price' onChange={handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                        <input type="file" id="image" name="img" required placeholder='Image' onChange={handleInputChange} multiple={false} />
+                    </div>
+                    {/* button */}
+                    <div className="form-group">
+                        <button type="submit" disabled={isSubmitting}>Add Product</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
