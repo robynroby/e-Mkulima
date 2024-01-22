@@ -27,8 +27,16 @@ const AdminPage = () => {
         , []);
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        const { name, value, type, files } = e.target;
+
+        // Handle file input separately
+        if (type === 'file') {
+            setFormData({ ...formData, [name]: files[0] }); // Assuming you only want to upload one file
+        } else {
+            // Convert price to number
+            const newValue = name === 'price' ? parseFloat(value) : value;
+            setFormData({ ...formData, [name]: newValue });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -36,33 +44,40 @@ const AdminPage = () => {
         setIsSubmitting(true);
 
         try {
-            // the price should be a number
-            formData.price = Number(formData.price);
-            console.log(formData);
             const token = localStorage.getItem('token');
-            console.log(token)
-            console.log(JSON.stringify(formData))
+
+            console.log(formData);
+
+            const formDataForServer = new FormData();
+            formDataForServer.append('title', formData.title);
+            formDataForServer.append('desc', formData.desc);
+            formDataForServer.append('price', formData.price);
+            formDataForServer.append('img', formData.img);
+
+            console.log(formDataForServer);
 
             const response = await fetch('http://localhost:5000/api/products', {
                 method: 'POST',
                 headers: {
                     'token': `Bearer ${token}`,
                 },
-                body: JSON.stringify(formData),
+                body: formDataForServer,
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+                const errorMessage = await response.text();
+                throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}. Server error message: ${errorMessage}`);
             }
 
             alert('Product added successfully!');
         } catch (error) {
             console.error('Error adding product:', error);
-            setErrors(error.message);
+            console.log(error.message);
+            setErrors("Error adding product")
+        } finally {
+            setIsSubmitting(false);
         }
     };
-
-
 
 
     if (!isAdmin) {

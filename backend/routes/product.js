@@ -1,4 +1,8 @@
 const Product = require("../models/Product");
+const multer = require("multer");
+const upload = multer();
+
+
 const {
     verifyToken,
     verifyTokenAndAuthorization,
@@ -7,11 +11,18 @@ const {
 
 const router = require("express").Router();
 
-//CREATE
-router.post("/", verifyTokenAndAdmin, async (req, res) => {
-    const newProduct = new Product(req.body);
+// creaate a new product
+router.post("/", verifyTokenAndAdmin, upload.single('img'), async (req, res) => {
+    const { title, desc, price } = req.body;
 
     try {
+        const newProduct = new Product({
+            title,
+            desc,
+            img: req.file.buffer, // Save the binary data from the uploaded file
+            price,
+        });
+
         const savedProduct = await newProduct.save();
         res.status(200).json(savedProduct);
     } catch (err) {
