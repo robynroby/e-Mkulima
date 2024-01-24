@@ -7,10 +7,11 @@
 
         img {
             width: 200px;
-            // height: 200px;
+            height: 200px;
             background-size: cover;
             background-position: center;
             border-radius: 1px;
+            object-fit: cover;
             // margin-bottom: 20px;
         }
     }

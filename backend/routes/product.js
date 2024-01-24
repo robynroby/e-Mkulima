@@ -1,6 +1,9 @@
 const Product = require("../models/Product");
-const multer = require("multer");
-const upload = multer();
+const express = require('express');
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 
 const {
@@ -12,14 +15,16 @@ const {
 const router = require("express").Router();
 
 // creaate a new product
-router.post("/", verifyTokenAndAdmin, upload.single('img'), async (req, res) => {
-    const { title, desc, price } = req.body;
+router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) => {
+    const { title, desc, price, category } = req.body;
+    const images = req.files.map(file => file.buffer);
 
     try {
         const newProduct = new Product({
             title,
             desc,
-            img: req.file.buffer, // Save the binary data from the uploaded file
+            img: images,
+            category,
             price,
         });
 
@@ -33,7 +38,6 @@ router.post("/", verifyTokenAndAdmin, upload.single('img'), async (req, res) => 
         }
     }
 });
-
 
 //UPDATE
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
@@ -74,6 +78,7 @@ router.get("/find/:id", async (req, res) => {
 router.get("/", async (req, res) => {
     const qNew = req.query.new;
     const qCategory = req.query.category;
+
     try {
         let products;
 
@@ -92,7 +97,7 @@ router.get("/", async (req, res) => {
         // Convert image buffers to base64 strings
         const productsWithBase64Images = products.map(product => ({
             ...product._doc,
-            img: product.img.toString('base64'),
+            img: product.img.map(imageBuffer => imageBuffer.toString('base64')),
         }));
 
         res.status(200).json(productsWithBase64Images);
@@ -100,6 +105,7 @@ router.get("/", async (req, res) => {
         res.status(500).json(err);
     }
 });
+
 
 
 module.exports = router;

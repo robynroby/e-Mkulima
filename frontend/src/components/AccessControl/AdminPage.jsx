@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 import './AC.scss';
-
-
 
 const AdminPage = () => {
     const [formData, setFormData] = useState({
         title: '',
         desc: '',
-        img: '',
-        price: 0,
+        img: [],
+        price: '',
+        category: '',
     });
 
     const [errors, setErrors] = useState('');
@@ -23,15 +22,14 @@ const AdminPage = () => {
         if (decodedToken.isAdmin) {
             setIsAdmin(true);
         }
-    }
-        , []);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value, type, files } = e.target;
 
         // Handle file input separately
         if (type === 'file') {
-            setFormData({ ...formData, [name]: files[0] }); // Assuming you only want to upload one file
+            setFormData({ ...formData, [name]: files }); // Accept multiple files
         } else {
             // Convert price to number
             const newValue = name === 'price' ? parseFloat(value) : value;
@@ -52,7 +50,12 @@ const AdminPage = () => {
             formDataForServer.append('title', formData.title);
             formDataForServer.append('desc', formData.desc);
             formDataForServer.append('price', formData.price);
-            formDataForServer.append('img', formData.img);
+
+            for (let i = 0; i < formData.img.length; i++) {
+                formDataForServer.append('img', formData.img[i]);
+            }
+
+            formDataForServer.append('category', formData.category);
 
             console.log(formDataForServer);
 
@@ -66,19 +69,21 @@ const AdminPage = () => {
 
             if (!response.ok) {
                 const errorMessage = await response.text();
-                throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}. Server error message: ${errorMessage}`);
+                throw new Error(
+                    `HTTP error! Status: ${response.status} ${response.statusText
+                    }. Server error message: ${errorMessage}`
+                );
             }
 
             alert('Product added successfully!');
         } catch (error) {
             console.error('Error adding product:', error);
             console.log(error.message);
-            setErrors("Error adding product")
+            setErrors('Error adding product');
         } finally {
             setIsSubmitting(false);
         }
     };
-
 
     if (!isAdmin) {
         return <div>You do not have permission to access this page.</div>;
@@ -91,20 +96,71 @@ const AdminPage = () => {
                 <p className="error-message">{errors}</p>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <input type="text" value={formData.title} name="title" required placeholder='Title' onChange={handleInputChange} />
+                        <input
+                            type="text"
+                            value={formData.title}
+                            name="title"
+                            required
+                            placeholder="Title"
+                            onChange={handleInputChange}
+                        />
                     </div>
                     <div className="form-group">
-                        <input type="text" value={formData.desc} name="desc" required placeholder='Description' onChange={handleInputChange} />
+                        <input
+                            type="text"
+                            value={formData.desc}
+                            name="desc"
+                            required
+                            placeholder="Description"
+                            onChange={handleInputChange}
+                        />
                     </div>
                     <div className="form-group">
-                        <input type="number" value={formData.price} name="price" required placeholder='Price' onChange={handleInputChange} />
+                        <input
+                            type="number"
+                            value={formData.price}
+                            name="price"
+                            required
+                            placeholder="Price"
+                            onChange={handleInputChange}
+                        />
                     </div>
                     <div className="form-group">
-                        <input type="file" id="image" name="img" required placeholder='Image' onChange={handleInputChange} multiple={false} />
+                        <input
+                            type="file"
+                            id="image"
+                            name="img"
+                            required
+                            placeholder="Image"
+                            onChange={handleInputChange}
+                            multiple={true} // Accept multiple files
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="category">Category:</label>
+                        <select
+                            id="category"
+                            name="category"
+                            value={formData.category}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value="" disabled>
+                                Select a category
+                            </option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="grains">Grains</option>
+                            <option value="dairy">Dairy</option>
+                            <option value="meat">Meat</option>
+                            <option value="others">Others</option>
+                        </select>
                     </div>
                     {/* button */}
                     <div className="form-group">
-                        <button type="submit" disabled={isSubmitting}>Add Product</button>
+                        <button type="submit" disabled={isSubmitting}>
+                            Add Product
+                        </button>
                     </div>
                 </form>
             </div>
