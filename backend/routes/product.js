@@ -70,7 +70,6 @@ router.get("/find/:id", async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 //GET ALL PRODUCTS
 router.get("/", async (req, res) => {
     const qNew = req.query.new;
@@ -90,10 +89,17 @@ router.get("/", async (req, res) => {
             products = await Product.find();
         }
 
-        res.status(200).json(products);
+        // Convert image buffers to base64 strings
+        const productsWithBase64Images = products.map(product => ({
+            ...product._doc,
+            img: product.img.toString('base64'),
+        }));
+
+        res.status(200).json(productsWithBase64Images);
     } catch (err) {
         res.status(500).json(err);
     }
 });
+
 
 module.exports = router;
