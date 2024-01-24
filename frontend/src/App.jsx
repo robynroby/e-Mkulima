@@ -61,7 +61,7 @@ const App = () => {
           element: <Cart />
         },
         {
-          path: "/single-product",
+          path: "/products/:id",
           element: <SingleProductPage />
         },
         {

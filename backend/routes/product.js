@@ -69,7 +69,14 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
 router.get("/find/:id", async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
-        res.status(200).json(product);
+
+        // Convert image buffers to base64 strings
+        const productWithBase64Images = {
+            ...product._doc,
+            img: product.img.map(imageBuffer => imageBuffer.toString('base64')),
+        };
+
+        res.status(200).json(productWithBase64Images);
     } catch (err) {
         res.status(500).json(err);
     }
