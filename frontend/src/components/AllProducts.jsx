@@ -4,6 +4,7 @@ import './AllProducts.scss';
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Function to fetch products from the server
@@ -23,11 +24,13 @@ const AllProducts = () => {
 
                 const data = await response.json();
                 setProducts(data);
+                setLoading(false);
 
                 // Store products in local storage
                 localStorage.setItem('products', JSON.stringify(data));
             } catch (error) {
                 console.error('Error fetching products:', error.message);
+                setLoading(false);
             }
         };
 
@@ -40,6 +43,19 @@ const AllProducts = () => {
         // Clean up the interval when the component unmounts
         return () => clearInterval(intervalId);
     }, []);
+
+    if (loading) {
+        return <p
+            style={{
+                fontSize: '2rem',
+                fontWeight: 'bold',
+                color: '#333',
+                textAlign: 'center',
+                marginTop: '5rem',
+            }
+            }
+        >Loading Products...</p>; // Display loading element
+    }
 
     return (
         <div className='products-container'>

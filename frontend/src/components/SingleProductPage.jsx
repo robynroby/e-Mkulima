@@ -5,6 +5,7 @@ import './SingleProductPage.scss';
 const SingleProductPage = () => {
     const [quantity, setQuantity] = useState(1);
     const [productDetails, setProductDetails] = useState({});
+    const [loading, setLoading] = useState(true);
     const { id } = useParams();
 
     const decreaseQuantity = () => {
@@ -29,11 +30,13 @@ const SingleProductPage = () => {
                 // Set the product details in state
                 setProductDetails(data);
                 console.log(data.img); // Log img data
+                setLoading(false);
 
                 // Store product details in local storage
                 localStorage.setItem('productDetails', JSON.stringify(data));
             } catch (error) {
                 console.error('Error fetching product details:', error.message);
+                setLoading(false);
             }
         };
 
@@ -46,6 +49,19 @@ const SingleProductPage = () => {
         // Clean up the interval when the component unmounts
         return () => clearInterval(intervalId);
     }, [id]);
+
+    if (loading) {
+        return <p
+            style={{
+                fontSize: '2rem',
+                fontWeight: 'bold',
+                color: '#333',
+                textAlign: 'center',
+                marginTop: '5rem',
+            }
+            }
+        >Loading Product...</p>; // Display loading element
+    }
 
     return (
         <div className="single-product-page">
