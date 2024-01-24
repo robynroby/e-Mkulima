@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Account.scss';
 
 const Account = () => {
     const [username, setUsername] = useState('');
@@ -33,12 +34,12 @@ const Account = () => {
     };
 
     return (
-        <div>
+        <div className='ac-container'>
             <h2>Account</h2>
             {errorMessage && <p>{errorMessage}</p>}
             {successMessage && <p>{successMessage}</p>}
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className='form-group'>
                     <label htmlFor="username">Username:</label>
                     <input
                         type="text"
@@ -47,7 +48,7 @@ const Account = () => {
                         onChange={handleUsernameChange}
                     />
                 </div>
-                <div>
+                <div className='form-group'>
                     <label htmlFor="password">Password:</label>
                     <input
                         type="password"
