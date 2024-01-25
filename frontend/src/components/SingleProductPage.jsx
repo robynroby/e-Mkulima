@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './SingleProductPage.scss';
 
 const SingleProductPage = () => {
@@ -7,12 +7,16 @@ const SingleProductPage = () => {
     const [productDetails, setProductDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const { id } = useParams();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const addToCart = async () => {
         try {
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId');
+
+            if (!token || !userId) {
+                throw new Error('User not authenticated');
+            }
 
             const cartResponse = await fetch(`http://localhost:5000/api/carts/find/${userId}`, {
                 headers: {
@@ -55,6 +59,7 @@ const SingleProductPage = () => {
 
             const data = await response.json();
             console.log('Product added to cart:', data);
+            alert('Product Sucessfully added to cart');
         } catch (error) {
             console.error('Error adding product to cart:', error.message);
         }
