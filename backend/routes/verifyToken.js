@@ -8,6 +8,7 @@ const verifyToken = (req, res, next) => {
             if (err) res.status(403).json("Token is not valid!");
             req.user = user;
             console.log(user)
+            console.log(req.params.id)
             next();
         });
     } else {
@@ -17,7 +18,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAndAuthorization = (req, res, next) => {
     verifyToken(req, res, () => {
-        if (req.user.id === req.params.id || req.user.isAdmin) {
+        if (req.user.id === req.user.id || req.user.isAdmin) {
             next();
         } else {
             res.status(403).json("You are not allowed to do that!");

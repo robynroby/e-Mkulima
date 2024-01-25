@@ -29,6 +29,8 @@ const Login = () => {
             if (response.ok) {
                 // Handle successful login, e.g., redirect to a new page
                 console.log('Login successful', data);
+                // add user id to local storage
+                localStorage.setItem('userId', data._id);
                 localStorage.setItem('token', data.accessToken);
                 navigate('/')
             } else {

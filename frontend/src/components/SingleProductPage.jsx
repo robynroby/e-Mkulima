@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './SingleProductPage.scss';
 
 const SingleProductPage = () => {
@@ -7,6 +7,58 @@ const SingleProductPage = () => {
     const [productDetails, setProductDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const { id } = useParams();
+    const navigate = useNavigate();
+
+    const addToCart = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+
+            const cartResponse = await fetch(`http://localhost:5000/api/carts/find/${userId}`, {
+                headers: {
+                    'token': `Bearer ${token}`,
+                },
+            });
+
+            if (!cartResponse.ok) {
+                throw new Error('Failed to fetch user cart');
+            }
+
+            const cartData = await cartResponse.json();
+            console.log('Cart data:', cartData);
+
+            // If the cart exists, update it; otherwise, create a new cart
+            const cartId = cartData ? cartData._id : null;
+
+            const cartPayload = {
+                userId,
+                products: [
+                    {
+                        productId: productDetails._id, // Replace with the actual product ID
+                        quantity,
+                    },
+                ],
+            };
+
+            const response = await fetch(`http://localhost:5000/api/carts/${cartId ? cartId : ''}`, {
+                method: cartId ? 'PUT' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': `Bearer ${token}`,
+                },
+                body: JSON.stringify(cartPayload),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add product to cart');
+            }
+
+            const data = await response.json();
+            console.log('Product added to cart:', data);
+        } catch (error) {
+            console.error('Error adding product to cart:', error.message);
+        }
+    };
 
     const decreaseQuantity = () => {
         if (quantity > 1) {
@@ -29,7 +81,6 @@ const SingleProductPage = () => {
                 const data = await response.json();
                 // Set the product details in state
                 setProductDetails(data);
-                console.log(data.img); // Log img data
                 setLoading(false);
 
                 // Store product details in local storage
@@ -78,7 +129,7 @@ const SingleProductPage = () => {
                 <p className="description">{productDetails.desc}</p>
                 <p className="seller">Seller: seller name</p>
                 <div className="counter-comp">
-                    <button className="add-to-cart">Add to Cart</button>
+                    <button className="add-to-cart" onClick={addToCart}>Add to Cart</button>
                     <div className="quantity-container">
                         <p className="quantity-text">Quantity</p>
                         <div className="quantity-control">
