@@ -1,3 +1,22 @@
+.categories {
+    margin-bottom: 20px;
+
+    button {
+        background: none;
+        cursor: pointer;
+        font-size: 0.8rem;
+        margin: 0 0.5rem;
+        padding: 0.5rem;
+        border: 1px solid #000;
+        transition: all 0.3s ease-in-out;
+        
+        &:hover {
+            background: #000;
+            color: #fff;
+        }
+    }
+}
+
 // 3 cards per row  
 .products {
     display: flex;
@@ -7,9 +26,13 @@
     max-width: 1200px;
     padding: 0 1rem;
     width: 57%;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 }
 
-hr{
+hr {
     border: 0.5px solid rgba(0, 0, 0, .1);
     width: 100%;
     margin-bottom: 20px;

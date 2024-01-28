@@ -86,6 +86,7 @@ const SingleProductPage = () => {
                 const data = await response.json();
                 // Set the product details in state
                 setProductDetails(data);
+                console.log('Product details:', data);
                 setLoading(false);
 
                 // Store product details in local storage

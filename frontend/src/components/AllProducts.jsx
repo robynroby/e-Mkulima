@@ -5,6 +5,7 @@ import './AllProducts.scss';
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState('All'); // Default to 'All'
 
     useEffect(() => {
         // Function to fetch products from the server
@@ -27,22 +28,30 @@ const AllProducts = () => {
                 setLoading(false);
 
                 // Store products in local storage
-                localStorage.setItem('products', JSON.stringify(data));
+                const productIdentifiers = data.map((product) => ({ _id: product._id, title: product.title }));
+                localStorage.setItem('productIdentifiers', JSON.stringify(productIdentifiers));
             } catch (error) {
                 console.error('Error fetching products:', error.message);
                 setLoading(false);
             }
         };
 
-        // Fetch products when the component mounts
         fetchProducts();
 
-        // Set up an interval to fetch products periodically (e.g., every 1 minute)
-        const intervalId = setInterval(fetchProducts, 60000); // 60000 milliseconds = 1 minute
-
-        // Clean up the interval when the component unmounts
+        // Fetch products every minute
+        const intervalId = setInterval(fetchProducts, 60000);
         return () => clearInterval(intervalId);
+
     }, []);
+
+    // filter products by category
+    const filterProductsByCategory = () => {
+        console.log(products.filter((product) => product.category ));
+        if (selectedCategory === 'All') {
+            return products;
+        }
+        return products.filter((product) => product.category === selectedCategory);
+    };
 
     if (loading) {
         return <p
@@ -61,8 +70,19 @@ const AllProducts = () => {
         <div className='products-container'>
             <h2>All Products</h2>
             <hr />
+            {/* add category filter */}
+            <div className='categories'>
+                <button className='category' onClick={() => setSelectedCategory('All')}>All</button>
+                <button className='category' onClick={() => setSelectedCategory('Vegetables')}>Vegetables</button>
+                <button className='category' onClick={() => setSelectedCategory('Fruits')}>Fruits</button>
+                <button className='category' onClick={() => setSelectedCategory('Grains')}>Grains</button>
+                <button className='category' onClick={() => setSelectedCategory('Dairy')}>Dairy</button>
+                <button className='category' onClick={() => setSelectedCategory('Meat')}>Meat</button>
+                <button className='category' onClick={() => setSelectedCategory('Others')}>Others</button>
+            </div>
+
             <div className='products'>
-                {products.map((product) => (
+                {filterProductsByCategory().map((product) => (
                     <CardProducts key={product._id} product={product} />
                 ))}
             </div>
