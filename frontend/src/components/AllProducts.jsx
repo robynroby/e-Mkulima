@@ -5,7 +5,9 @@ import './AllProducts.scss';
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedCategory, setSelectedCategory] = useState('All'); // Default to 'All'
+    const [currentCategory, setCurrentCategory] = useState('All');
+    const [filteredProducts, setFilteredProducts] = useState([]);
+
 
     useEffect(() => {
         // Function to fetch products from the server
@@ -44,14 +46,23 @@ const AllProducts = () => {
 
     }, []);
 
-    // filter products by category
-    const filterProductsByCategory = () => {
-        console.log(products.filter((product) => product.category ));
-        if (selectedCategory === 'All') {
-            return products;
+    useEffect(() => {
+        // Filter products based on current category
+        if (currentCategory === 'All') {
+            setFilteredProducts(products);
+        } else {
+            const filtered = products.filter(product => product.category === currentCategory);
+            console.log(filtered.map(product => product.category ))
+            setFilteredProducts(filtered);
         }
-        return products.filter((product) => product.category === selectedCategory);
+    }, [products, currentCategory]);
+
+
+    const handleCategoryChange = (category) => {
+        console.log('Category changed to:', category);
+        setCurrentCategory(category);
     };
+
 
     if (loading) {
         return <p
@@ -72,17 +83,16 @@ const AllProducts = () => {
             <hr />
             {/* add category filter */}
             <div className='categories'>
-                <button className='category' onClick={() => setSelectedCategory('All')}>All</button>
-                <button className='category' onClick={() => setSelectedCategory('Vegetables')}>Vegetables</button>
-                <button className='category' onClick={() => setSelectedCategory('Fruits')}>Fruits</button>
-                <button className='category' onClick={() => setSelectedCategory('Grains')}>Grains</button>
-                <button className='category' onClick={() => setSelectedCategory('Dairy')}>Dairy</button>
-                <button className='category' onClick={() => setSelectedCategory('Meat')}>Meat</button>
-                <button className='category' onClick={() => setSelectedCategory('Others')}>Others</button>
+                <button className='category' onClick={() => handleCategoryChange('All')}>All</button>
+                <button className='category' onClick={() => handleCategoryChange('Vegetables')}>Vegetables</button>
+                <button className='category' onClick={() => handleCategoryChange('Fruits')}>Fruits</button>
+                <button className='category' onClick={() => handleCategoryChange('Grains')}>Grains</button>
+                <button className='category' onClick={() => handleCategoryChange('Dairy')}>Dairy</button>
+                <button className='category' onClick={() => handleCategoryChange('Meat')}>Meat</button>
+                <button className='category' onClick={() => handleCategoryChange('Others')}>Others</button>
             </div>
-
             <div className='products'>
-                {filterProductsByCategory().map((product) => (
+                {filteredProducts.map((product) => (
                     <CardProducts key={product._id} product={product} />
                 ))}
             </div>
