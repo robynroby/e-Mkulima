@@ -27,6 +27,7 @@ const AllProducts = () => {
 
                 const data = await response.json();
                 setProducts(data);
+                console.log(data);
                 setLoading(false);
 
                 // Store products in local storage
@@ -92,7 +93,7 @@ const AllProducts = () => {
                 <button className='category' onClick={() => handleCategoryChange('Others')}>Others</button>
             </div>
             <div className='products'>
-                {filteredProducts.map((product) => (
+                {products.map((product) => (
                     <CardProducts key={product._id} product={product} />
                 ))}
             </div>
