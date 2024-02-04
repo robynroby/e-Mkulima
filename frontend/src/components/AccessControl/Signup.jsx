@@ -66,7 +66,9 @@ const SignUp = () => {
                     </div>
                     {/* button */}
                     <div className="form-group">
-                        <button type="submit" disabled={isSubmitting}>Sign Up</button>
+                        <button type="submit" className="btn" disabled={isSubmitting}>
+                            {isSubmitting ? 'Signing up...' : 'Sign Up'}
+                        </button>
                     </div>
                     <div className="redirect-text">
                         <p>Already have an account? <a href="/login">Login</a></p>

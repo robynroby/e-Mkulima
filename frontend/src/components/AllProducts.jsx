@@ -8,29 +8,22 @@ const AllProducts = () => {
     const [currentCategory, setCurrentCategory] = useState('All');
     const [filteredProducts, setFilteredProducts] = useState([]);
 
-
     useEffect(() => {
-        // Function to fetch products from the server
         const fetchProducts = async () => {
             try {
                 const token = localStorage.getItem('token');
-
                 const response = await fetch('http://localhost:5000/api/products', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
-
                 if (!response.ok) {
                     throw new Error('Failed to fetch products');
                 }
-
                 const data = await response.json();
                 setProducts(data);
-                console.log(data);
+                console.log(data)
                 setLoading(false);
-
-                // Store products in local storage
                 const productIdentifiers = data.map((product) => ({ _id: product._id, title: product.title }));
                 localStorage.setItem('productIdentifiers', JSON.stringify(productIdentifiers));
             } catch (error) {
@@ -44,7 +37,6 @@ const AllProducts = () => {
         // Fetch products every minute
         const intervalId = setInterval(fetchProducts, 60000);
         return () => clearInterval(intervalId);
-
     }, []);
 
     useEffect(() => {
@@ -53,36 +45,22 @@ const AllProducts = () => {
             setFilteredProducts(products);
         } else {
             const filtered = products.filter(product => product.category === currentCategory);
-            console.log(filtered.map(product => product.category ))
             setFilteredProducts(filtered);
         }
     }, [products, currentCategory]);
 
-
     const handleCategoryChange = (category) => {
-        console.log('Category changed to:', category);
         setCurrentCategory(category);
     };
 
-
     if (loading) {
-        return <p
-            style={{
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                color: '#333',
-                textAlign: 'center',
-                marginTop: '5rem',
-            }
-            }
-        >Loading Products...</p>; // Display loading element
+        return <p>Loading Products...</p>;
     }
 
     return (
         <div className='products-container'>
             <h2>All Products</h2>
             <hr />
-            {/* add category filter */}
             <div className='categories'>
                 <button className='category' onClick={() => handleCategoryChange('All')}>All</button>
                 <button className='category' onClick={() => handleCategoryChange('Vegetables')}>Vegetables</button>
@@ -93,7 +71,7 @@ const AllProducts = () => {
                 <button className='category' onClick={() => handleCategoryChange('Others')}>Others</button>
             </div>
             <div className='products'>
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <CardProducts key={product._id} product={product} />
                 ))}
             </div>

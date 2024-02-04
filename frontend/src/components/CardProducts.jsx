@@ -10,7 +10,6 @@ const CardProducts = ({ product }) => {
     }
     return (
         <div className="card" onClick={handleClick}>
-            {/* <Link to={`/product/${product._id}`}> */}
             <div className="image">
                 {firstImage && (
                     <img src={`data:image/jpeg;base64,${product.img[0]}`} alt={product.title} />
@@ -20,7 +19,6 @@ const CardProducts = ({ product }) => {
                 <h5 className="title">{product.title}</h5>
                 <p className="price">Ksh {product.price}</p>
             </div>
-            {/* </Link> */}
         </div>
     );
 };

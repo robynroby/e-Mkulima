@@ -4,6 +4,7 @@ import './AC.scss';
 
 const Login = () => {
     const [error, setError] = useState('');
+    const [loading,setLoading] = useState(false)
 
     const navigate = useNavigate();
 
@@ -14,6 +15,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true)
 
         try {
             const response = await fetch('http://localhost:5000/api/auth/login', {
@@ -32,15 +34,18 @@ const Login = () => {
                 // add user id to local storage
                 localStorage.setItem('userId', data._id);
                 localStorage.setItem('token', data.accessToken);
+                setLoading(false)
                 navigate('/')
             } else {
                 // Handle login error
                 console.error('Login failed', data);
                 setError(data);
+                setLoading(false)
             }
         } catch (error) {
             console.error('Login error', error);
             setError(error);
+            setLoading(false)
         }
     };
 
@@ -72,7 +77,11 @@ const Login = () => {
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         />
                     </div>
-                    <button type="submit">Login</button>
+                    <div className="form-group">
+                        <button type="submit" className="btn" disabled={loading}>
+                            {loading ? 'logging in...' : 'Login'}
+                        </button>
+                    </div>
                     <div className="redirect-text">
                         <p>Don't have an account? <a href="/register">Sign Up</a></p>
                     </div>
