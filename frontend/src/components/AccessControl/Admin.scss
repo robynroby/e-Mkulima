@@ -1,0 +1,88 @@
+.admin-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // margin: 50px;
+}
+
+.admin-container {
+    padding: 20px;
+    backdrop-filter: blur(10px); // Adjust the blur value as needed
+
+    // Update the container to have a solid background
+    background-color: rgba(255, 255, 255, 0.1); // Adjust the opacity as needed
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+
+
+    .error-message {
+        color: red;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        // color: #ffffff;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        .form-group {
+            margin-bottom: 15px;
+
+            input {
+                width: 100%;
+                padding: 10px;
+                font-size: 12px;
+                border: 1px solid #000000;
+                background: none;
+                // color: #fff;
+                outline: none;
+
+                &:focus {
+                    border-color: #06220f;
+                }
+
+
+            }
+        }
+
+        button {
+            background-color: #17bf4d;
+            width: 100%;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+
+            &:hover {
+                background-color: #14a643;
+            }
+        }
+
+        .redirect-text {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #ffffff;
+
+            a {
+                color: #17bf4d;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

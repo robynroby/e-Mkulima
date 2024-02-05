@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import './AC.scss';
+import './Admin.scss';
 
 const AdminPage = () => {
     const [formData, setFormData] = useState({
@@ -90,8 +90,8 @@ const AdminPage = () => {
     }
 
     return (
-        <div className="signup-page">
-            <div className="signup-container">
+        <div className="admin-page">
+            <div className="admin-container">
                 <h2>Add Product (Admin Page)</h2>
                 <p className="error-message">{errors}</p>
                 <form onSubmit={handleSubmit}>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Cart.scss';
 
 const Cart = () => {
@@ -8,6 +9,12 @@ const Cart = () => {
     const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const shipping = 100;
     const total = subtotal + shipping;
+
+    const navigate = useNavigate();
+
+    const handleCheckout = () => {
+        navigate('/checkout');
+    };
 
     useEffect(() => {
         const fetchCartData = async () => {
@@ -44,6 +51,7 @@ const Cart = () => {
                 const productsWithDetails = await Promise.all(productDetailsPromises);
 
                 setCart(productsWithDetails);
+                console.log(productsWithDetails);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching cart data:', error.message);
@@ -54,17 +62,41 @@ const Cart = () => {
         fetchCartData();
     }, []);
 
+    const removeItemFromCart = async (productId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5000/api/carts/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'token': `Bearer ${token}`,
+                    
+                },
+                body: JSON.stringify({ productId: productId }),
+            });
+
+            if (response.ok) {
+                // Update the cart state to remove the deleted item
+                setCart(cart.filter(item => item._id !== productId));
+            } else {
+                console.error('Error deleting item from cart:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    };
+
+
     if (loading) {
         return <p
-        style={
-            {
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                color: '#333',
-                textAlign: 'center',
-                marginTop: '5rem',
+            style={
+                {
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                    color: '#333',
+                    textAlign: 'center',
+                    marginTop: '5rem',
+                }
             }
-        }
         >Cart Loading...</p>;
     }
 
@@ -95,7 +127,7 @@ const Cart = () => {
                                 <span className="item-price">Ksh {item.price * item.quantity}</span>
                                 <span className="item-seller">Sold by: seller</span>
                             </div>
-                            <button className='remove-link'>Remove</button>
+                            <button className='remove-link' onClick={() => removeItemFromCart(item.productId)}>Remove</button>
                         </div>
                     </div>
                 ))}
@@ -117,7 +149,7 @@ const Cart = () => {
                         <span className="amount">Ksh {total}</span>
                     </div>
                 </div>
-                <button className="checkout-button">Continue to Checkout</button>
+                <button className="checkout-button" onClick={handleCheckout}>Continue to Checkout</button>
             </div>
         </div>
     );

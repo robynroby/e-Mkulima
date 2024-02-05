@@ -54,7 +54,17 @@ const AllProducts = () => {
     };
 
     if (loading) {
-        return <p>Loading Products...</p>;
+        return <p
+            style={
+                {
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                    color: '#333',
+                    textAlign: 'center',
+                    marginTop: '5rem',
+                }
+            }
+        >Loading Products...</p>;
     }
 
     return (

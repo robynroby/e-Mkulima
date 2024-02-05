@@ -80,4 +80,7 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     }
 });
 
+// remove a product from the cart
+
+
 module.exports = router;
