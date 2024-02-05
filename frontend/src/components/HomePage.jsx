@@ -8,7 +8,7 @@ const HomePage = () => {
     const handleRedirect = () => {
         navigate('/products');
     }
-    
+
     return (
         <div className="home-page">
             {/* Banner Section */}
@@ -26,62 +26,10 @@ const HomePage = () => {
                 <p>Explore our curated collection of high-quality products.</p>
                 <button className="shop-all-button" onClick={handleRedirect}>Shop All</button>
 
-                {/* Sample Products Grid */}
-                <div className="products-grid">
-                    <div className="card">
-                        <div className="image">
-                            <img src='img/about.jpg' alt='' />
-                        </div>
-                        <div className="card-body">
-                            <h5 className="title">Prodict name</h5>
-                            <p className="price">Ksh 200</p>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="image">
-                            <img src='img/about.jpg' alt='' />
-                        </div>
-                        <div className="card-body">
-                            <h5 className="title">Prodict name</h5>
-                            <p className="price">Ksh 200</p>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="image">
-                            <img src='img/about.jpg' alt='' />
-                        </div>
-                        <div className="card-body">
-                            <h5 className="title">Prodict name</h5>
-                            <p className="price">Ksh 200</p>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="image">
-                            <img src='img/about.jpg' alt='' />
-                        </div>
-                        <div className="card-body">
-                            <h5 className="title">Prodict name</h5>
-                            <p className="price">Ksh 200</p>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="image">
-                            <img src='img/about.jpg' alt='' />
-                        </div>
-                        <div className="card-body">
-                            <h5 className="title">Prodict name</h5>
-                            <p className="price">Ksh 200</p>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="image">
-                            <img src='img/about.jpg' alt='' />
-                        </div>
-                        <div className="card-body">
-                            <h5 className="title">Prodict name</h5>
-                            <p className="price">Ksh 200</p>
-                        </div>
-                    </div>
+                <div className="featured-products">
+                    <h2>Featured Products</h2>
+                    <p>Explore our handpicked selection of top-rated products.</p>
+                    {/* Add your featured products carousel or grid here */}
                 </div>
             </div>
         </div>

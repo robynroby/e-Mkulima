@@ -1,32 +1,81 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Checkout.scss';
 
 const CheckoutPage = () => {
-    // Sample data for the cart items
-    const cartItems = [
-        {
-            id: 1,
-            name: 'Product 1',
-            quantity: 2,
-            price: 50,
-            seller: 'Sample Seller 1',
-            image: 'img/about.jpg',
-        },
-        {
-            id: 2,
-            name: 'Product 2',
-            quantity: 1,
-            price: 30,
-            seller: 'Sample Seller 2',
-            image: 'img/about.jpg',
-        },
-        // Add more items as needed
-    ];
+    const [cartItems, setCartItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCartData = async () => {
+            try {
+                // Replace 'userId' with the actual user ID (you can get it from the authentication process)
+                const userId = localStorage.getItem('userId');
+                const token = localStorage.getItem('token');
+
+                const cartResponse = await fetch(`http://localhost:5000/api/carts/find/${userId}`, {
+                    headers: {
+                        'token': `Bearer ${token}`,
+                    },
+                });
+
+                if (!cartResponse.ok) {
+                    throw new Error('Failed to fetch user cart');
+                }
+
+                const cartData = await cartResponse.json();
+                const productsInCart = cartData.products;
+                console.log(productsInCart);
+
+                // Fetch details for each product in the cart
+                const productDetailsPromises = productsInCart.map(async (product) => {
+                    const productResponse = await fetch(`http://localhost:5000/api/products/find/${product.productId}`);
+                    const productData = await productResponse.json();
+                    return {
+                        ...productData,
+                        quantity: product.quantity,
+                    };
+                });
+
+                // Wait for all product details to be fetched
+                const productsWithDetails = await Promise.all(productDetailsPromises);
+
+                setCartItems(productsWithDetails);
+                console.log(productsWithDetails);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching cart data:', error.message);
+                setLoading(false);
+            }
+        };
+
+        fetchCartData();
+    }, []);
+
 
     const calculateTotal = () => {
         // Calculate the total price of items in the cart
         return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
     };
+
+    const removeItemFromCart = async (productId) => {
+        try {
+            // Make a DELETE request to remove the item from the cart
+            const response = await fetch(`http://localhost:5000/api/carts/${productId}`, {
+                method: 'DELETE',
+                // Include any necessary headers (e.g., authorization token)
+            });
+
+            if (response.ok) {
+                // Update the cart items after successful deletion
+                setCartItems(cartItems.filter(item => item._id !== productId));
+            } else {
+                console.error('Error deleting item from cart:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    };
+
 
     return (
         <div className="checkout-page">
@@ -61,9 +110,9 @@ const CheckoutPage = () => {
                 <h2>Cart Summary</h2>
                 {cartItems.map((item) => (
                     <div key={item.id} className="cart-item">
-                        <img src={item.image} alt={item.name} />
+                        <img src={`data:image/jpeg;base64,${item.img[0]}`} alt={item.title} />
                         <div className="item-details">
-                            <div className="item-name">{item.name}</div>
+                            <div className="item-name">{item.title}</div>
                             <div className="quantity">Quantity: {item.quantity}</div>
                                 <div className="item-quantity-price">
                                     <div className="price">Ksh{item.price}</div>
