@@ -116,7 +116,7 @@ const CheckoutPage = () => {
                             <div className="quantity">Quantity: {item.quantity}</div>
                                 <div className="item-quantity-price">
                                     <div className="price">Ksh{item.price}</div>
-                                    <div className="seller">{item.seller}</div>
+                                    <div className="seller">product seller</div>
                                 </div>
                             <button className="remove-button">Remove</button>
                         </div>
