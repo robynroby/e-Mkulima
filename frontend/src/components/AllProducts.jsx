@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CardProducts from './CardProducts';
+import Pagination from './Pagination';
 import './AllProducts.scss';
 
 const AllProducts = () => {
@@ -7,6 +8,9 @@ const AllProducts = () => {
     const [loading, setLoading] = useState(true);
     const [currentCategory, setCurrentCategory] = useState('All');
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(6);
+
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -53,6 +57,14 @@ const AllProducts = () => {
         setCurrentCategory(category);
     };
 
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+
     if (loading) {
         return <p
             style={
@@ -80,11 +92,16 @@ const AllProducts = () => {
                 <button className='category' onClick={() => handleCategoryChange('Meat')}>Meat</button>
                 <button className='category' onClick={() => handleCategoryChange('Others')}>Others</button>
             </div>
-            <div className='products'>
-                {filteredProducts.map((product) => (
+            <div className="products">
+                {currentItems.map((product) => (
                     <CardProducts key={product._id} product={product} />
                 ))}
             </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(filteredProducts.length / itemsPerPage)}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };
