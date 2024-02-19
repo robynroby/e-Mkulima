@@ -86,7 +86,16 @@ const AdminPage = () => {
     };
 
     if (!isAdmin) {
-        return <div>You do not have permission to access this page.</div>;
+        return <div
+            style={
+                {
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                    color: '#333',
+                    textAlign: 'center',
+                    marginTop: '5rem',
+                }
+            }>You do not have permission to access this page.</div>;
     }
 
     return (
