@@ -1,0 +1,42 @@
+.sidebar {
+    width: 200px;
+    height: 100%;
+    background-color: #242424;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+
+    h2 {
+        margin-bottom: 20px;
+        font-size: 1rem;
+        color: #ffffff;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+
+        li {
+            margin-bottom: 10px;
+
+            a {
+                text-decoration: none;
+                color: #b7b7b7;
+                font-size: .9rem;
+
+                &:hover {
+                    color: #269737;
+                }
+            }
+        }
+    }
+}

@@ -14,6 +14,7 @@ import ProtectedRoute from './context/ProtectedRoute';
 import { UserContext } from './context/DataContext';
 import Account from './components/Account';
 import AdminPage from './components/AccessControl/AdminPage';
+import Dashboard from './FarmerDashboard/Dashboard';
 
 
 const App = () => {
@@ -88,6 +89,10 @@ const App = () => {
       path: "/register",
       element: <SignUp />
     },
+    {
+      path: "/fdashboard",
+      element: <Dashboard />
+    }
 
     // TODO: Add a 404 page
     // {
