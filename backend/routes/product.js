@@ -26,6 +26,7 @@ router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) =
             img: images,
             category,
             price,
+            farmerName: req.user.username,
         });
 
         const savedProduct = await newProduct.save();

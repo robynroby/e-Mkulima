@@ -19,8 +19,7 @@ const ProductSchema = new mongoose.Schema(
                 message: 'Please select correct category for product'
             }
         },
-        // size: { type: String },
-        // color: { type: String },
+        farmerName: { type: String, required: true },
         price: { type: Number, required: true },
 
     },

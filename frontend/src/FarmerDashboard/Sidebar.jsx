@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import './sidebar.scss';
 
 const Sidebar = () => {
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login')
+    }
     return (
         <div className="sidebar">
             <h2>Farmer Dashboard</h2>
@@ -15,6 +19,9 @@ const Sidebar = () => {
                 </li>
                 <li>
                     <Link to="/account">Account Settings</Link>
+                </li>
+                <li>
+                    <Link onClick={handleLogout}>logout</Link>
                 </li>
             </ul>
         </div>
