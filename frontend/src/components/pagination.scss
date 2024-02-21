@@ -7,6 +7,22 @@
     margin-top: 20px;
     // margin-bottom: 20px;
 
+    .page-number {
+        padding: 5px;
+        color: #000;
+        margin: 0 5px;
+        background-color:transparent;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #000000;
+            color: #fff;
+        }
+
+    }
+
     .previous-btn,.next-btn {
         padding: 10px;
         color: #000;

@@ -88,21 +88,24 @@ router.get("/", async (req, res) => {
     const qNew = req.query.new;
     const qCategory = req.query.category;
     const page = parseInt(req.query.page) || 1;
-    const limit = 6;
+    const limit = 9;
     const skip = (page - 1) * limit;
 
     try {
         let products;
 
         if (qNew) {
+            // Fetch only 1 product for the 'new' query
             products = await Product.find().sort({ createdAt: -1 }).limit(1);
         } else if (qCategory) {
+            // Fetch products by category with pagination
             products = await Product.find({
                 categories: {
                     $in: [qCategory],
                 },
             }).limit(limit).skip(skip);
         } else {
+            // Fetch all products with pagination
             products = await Product.find().limit(limit).skip(skip);
         }
 
@@ -117,8 +120,6 @@ router.get("/", async (req, res) => {
         res.status(500).json(err);
     }
 });
-
-
 
 
 module.exports = router;
