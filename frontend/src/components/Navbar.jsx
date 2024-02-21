@@ -16,7 +16,7 @@ function Navbar() {
             <div className="logo">Green<span>X</span></div>
             <ul className="navLinks">
                 <li><Link to={"/"}>Home</Link></li>
-                <li><Link to={'/products'}>Products</Link></li>
+                <li><Link to={'/products/page/:page'}>Products</Link></li>
                 <li><Link to={"/account"}>Account</Link></li>
             </ul>
             <div className="rightLinks">
