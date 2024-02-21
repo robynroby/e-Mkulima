@@ -82,10 +82,14 @@ router.get("/find/:id", async (req, res) => {
         res.status(500).json(err);
     }
 });
-//GET ALL PRODUCTS
+
+// GET ALL PRODUCTS
 router.get("/", async (req, res) => {
     const qNew = req.query.new;
     const qCategory = req.query.category;
+    const page = parseInt(req.query.page) || 1;
+    const limit = 6;
+    const skip = (page - 1) * limit;
 
     try {
         let products;
@@ -97,9 +101,9 @@ router.get("/", async (req, res) => {
                 categories: {
                     $in: [qCategory],
                 },
-            });
+            }).limit(limit).skip(skip);
         } else {
-            products = await Product.find();
+            products = await Product.find().limit(limit).skip(skip);
         }
 
         // Convert image buffers to base64 strings
@@ -113,6 +117,7 @@ router.get("/", async (req, res) => {
         res.status(500).json(err);
     }
 });
+
 
 
 
