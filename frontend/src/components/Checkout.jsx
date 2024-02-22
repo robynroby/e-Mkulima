@@ -56,6 +56,7 @@ const CheckoutPage = () => {
         // Calculate the total price of items in the cart
         return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
     };
+    
 
     const removeItemFromCart = async (productId) => {
         try {
@@ -77,12 +78,57 @@ const CheckoutPage = () => {
     };
 
 
+    const [phone, setPhone] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
+    const [amount, setAmount] = useState('');
+    const [message, setMessage] = useState('');
+
+    const handlePhoneChange = (e) => {
+        setPhone(e.target.value);
+    };
+
+    const handleAccountNumberChange = (e) => {
+        setAccountNumber(e.target.value);
+    };
+    const handleCalculateTotal = () => {
+        const totalAmount = calculateTotal();
+        setAmount(totalAmount);
+    };
+
+    useEffect(() => {
+        handleCalculateTotal();
+    }, [cartItems]);
+
+
+    const handlePay = (e) => {
+        console.log(amount)
+        console.log(phone)
+        e.preventDefault();
+        fetch("http://localhost:5000/api/stkpush", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ phone: phone, accountNumber: accountNumber, amount: amount }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setMessage('Payment successful!');
+            })
+            .catch((error) => {
+                console.error(error);
+                setMessage('Payment failed!');
+            });
+    };
+
     return (
         <div className="checkout-page">
             {/* Personal Information Form */}
-            <div className="personal-info-form">
+            <form onSubmit={handlePay} className="personal-info-form">
                 <h1>Checkout</h1>
                 <h2>Payment Information</h2>
+                {message && <p style={{ color: message.includes('failed') ? 'red' : 'green' }}>{message}</p>}
                 <div className="form-group">
                     <div className="horizontal-inputs">
                         <div className="input-group">
@@ -94,16 +140,30 @@ const CheckoutPage = () => {
                     </div>
                 </div>
                 <div className="form-group">
-                    <input type="text" placeholder="Address" id="address" />
+                    <input
+                        type="text"
+                        id="accountNumber"
+                        value={accountNumber}
+                        onChange={handleAccountNumberChange}
+                        placeholder='Account Number'
+                        required
+                    />
                 </div>
                 <div className="form-group">
                     <input type="text" placeholder="City" id="city" />
                 </div>
                 <div className="form-group">
-                    <input type="tel" placeholder="Phone Number" id="phone" />
+                    <input
+                        type="tel"
+                        placeholder="Phone Number"
+                        id="phone"
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        required
+                    />
                 </div>
                 <button className="pay-button">Pay</button>
-            </div>
+            </form>
 
             {/* Cart Summary */}
             <div className="cart-summary">
@@ -114,10 +174,10 @@ const CheckoutPage = () => {
                         <div className="item-details">
                             <div className="item-name">{item.title}</div>
                             <div className="quantity">Quantity: {item.quantity}</div>
-                                <div className="item-quantity-price">
-                                    <div className="price">Ksh{item.price}</div>
-                                    <div className="seller">product seller</div>
-                                </div>
+                            <div className="item-quantity-price">
+                                <div className="price">Ksh{item.price}</div>
+                                <div className="seller">product seller</div>
+                            </div>
                             <button className="remove-button">Remove</button>
                         </div>
                     </div>

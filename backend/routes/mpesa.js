@@ -43,20 +43,20 @@ async function getAccessToken() {
 }
 
 router.post('/', (req, res) => {
-    // let phoneNumber = req.body.phone;
-    // const accountNumber = req.body.accountNumber;
-    // const amount = req.body.amount;
+    let phoneNumber = req.body.phone;
+    const accountNumber = req.body.accountNumber;
+    const amount = req.body.amount;
 
-    // if (phoneNumber.startsWith("0")) {
-    //     phoneNumber = "254" + phoneNumber.slice(1);
-    // }
+    if (phoneNumber.startsWith("0")) {
+        phoneNumber = "254" + phoneNumber.slice(1);
+    }
 
 
-    //ECHO  THE DATA THAT WE RECEIVED FROM THE CLIENT
-    // console.log("Phone Number:", phoneNumber);
-    // console.log("Account Number:", accountNumber);
-    // console.log("Amount:", amount);
-    // res.json({ message: 'This is a sample API route.' });
+    // ECHO  THE DATA THAT WE RECEIVED FROM THE CLIENT
+    console.log("Phone Number:", phoneNumber);
+    console.log("Account Number:", accountNumber);
+    console.log("Amount:", amount);
+    res.json({ message: 'This is a sample API route.' });
 
     getAccessToken()
         .then((accessToken) => {
