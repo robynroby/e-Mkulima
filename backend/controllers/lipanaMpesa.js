@@ -47,6 +47,9 @@ const stkPush = async (req, res) => {
     if (phoneNumber.startsWith("0")) {
         phoneNumber = "254" + phoneNumber.slice(1);
     }
+    else{
+        phoneNumber = phoneNumber.slice(1);
+    }
 
 
     //ECHO  THE DATA THAT WE RECEIVED FROM THE CLIENT
