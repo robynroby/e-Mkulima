@@ -114,11 +114,11 @@ const CheckoutPage = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                setMessage('Payment successful!');
+                setMessage(data.CustomerMessage);
             })
             .catch((error) => {
                 console.error(error);
-                setMessage('Payment failed!');
+                setMessage('Payment failed! please try again.');
             });
     };
 
@@ -128,7 +128,7 @@ const CheckoutPage = () => {
             <form onSubmit={handlePay} className="personal-info-form">
                 <h1>Checkout</h1>
                 <h2>Payment Information</h2>
-                {message && <p style={{ color: message.includes('failed') ? 'red' : 'green' }}>{message}</p>}
+                {message && <p className='error-message' style={{ color: message.includes('failed') ? '#FF000024' : '#4BB543' }}>{message}</p>}
                 <div className="form-group">
                     <div className="horizontal-inputs">
                         <div className="input-group">
