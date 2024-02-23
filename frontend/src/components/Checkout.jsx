@@ -104,7 +104,7 @@ const CheckoutPage = () => {
         console.log(amount)
         console.log(phone)
         e.preventDefault();
-        fetch("http://localhost:5000/api/stkpush", {
+        fetch("http://localhost:5000/api/mpesa", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

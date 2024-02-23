@@ -16,7 +16,7 @@ const generateAccessToken = async () => {
     };
 
     const response = await axios.get(access_token_url, { headers, auth });
-console.log(response.data.access_token)
+    console.log(response.data.access_token)
     if (response.status === 200) {
         return response.data.access_token;
     } else {
@@ -40,8 +40,20 @@ const createToken = async (req, res, next) => {
 const stkPush = async (req, res) => {
     const token = req.token;
     const shortCode = 174379;
-    // const phone = req.body.phone.substring(1);
-    // const amount = req.body.amount;
+    let phoneNumber = req.body.phone;
+    const accountNumber = req.body.accountNumber;
+    const amount = req.body.amount;
+
+    if (phoneNumber.startsWith("0")) {
+        phoneNumber = "254" + phoneNumber.slice(1);
+    }
+
+
+    //ECHO  THE DATA THAT WE RECEIVED FROM THE CLIENT
+    console.log("Phone Number:", phoneNumber);
+    console.log("Account Number:", accountNumber);
+    console.log("Amount:", amount);
+
     const passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
     const url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
 
@@ -61,12 +73,12 @@ const stkPush = async (req, res) => {
         Password: password,
         Timestamp: timestamp,
         TransactionType: "CustomerPayBillOnline",
-        Amount: "1",
-        PartyA: "254790772286",
+        Amount: amount,
+        PartyA: phoneNumber,
         PartyB: 174379,
-        PhoneNumber: "254790772286",
+        PhoneNumber: phoneNumber,
         CallBackURL: "https://mydomain.com/path",
-        AccountReference: "Mpesa Test",
+        AccountReference: accountNumber,
         TransactionDesc: "Testing stk push",
     };
 
