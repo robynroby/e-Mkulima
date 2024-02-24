@@ -43,6 +43,9 @@ const AdminPage = () => {
 
         try {
             const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+
+            console.log(username)
 
             console.log(formData);
 
@@ -56,6 +59,7 @@ const AdminPage = () => {
             }
 
             formDataForServer.append('category', formData.category);
+            formDataForServer.append('farmerName', username); // Add the user's name to the formDataForServer
 
             console.log(formDataForServer);
 
@@ -84,7 +88,6 @@ const AdminPage = () => {
             setIsSubmitting(false);
         }
     };
-
     if (!isAdmin) {
         return <div
             style={

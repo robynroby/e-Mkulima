@@ -125,7 +125,7 @@ const Cart = () => {
                             <span className="item-quantity">Quantity: {item.quantity}</span>
                             <div className="item-by">
                                 <span className="item-price">Ksh {item.price * item.quantity}</span>
-                                <span className="item-seller">Sold by: seller</span>
+                                <span className="item-seller">Sold by: {item.farmerName}</span>
                             </div>
                             <button className='remove-link' onClick={() => removeItemFromCart(item.productId)}>Remove</button>
                         </div>

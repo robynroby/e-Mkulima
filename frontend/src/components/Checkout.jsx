@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Checkout.scss';
 
 const CheckoutPage = () => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate()
+
+    const handleredirect = () =>{
+        navigate("/cart")
+    }
 
     useEffect(() => {
         const fetchCartData = async () => {
@@ -56,7 +63,7 @@ const CheckoutPage = () => {
         // Calculate the total price of items in the cart
         return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
     };
-    
+
 
     const removeItemFromCart = async (productId) => {
         try {
@@ -167,7 +174,10 @@ const CheckoutPage = () => {
 
             {/* Cart Summary */}
             <div className="cart-summary">
-                <h2>Cart Summary</h2>
+                <div className="cart-header">
+                    <h2>Cart Summary</h2>
+                    <button className="back-button" onClick={handleredirect}>back to cart</button>
+                </div>
                 {cartItems.map((item) => (
                     <div key={item.id} className="cart-item">
                         <img src={`data:image/jpeg;base64,${item.img[0]}`} alt={item.title} />
@@ -176,9 +186,8 @@ const CheckoutPage = () => {
                             <div className="quantity">Quantity: {item.quantity}</div>
                             <div className="item-quantity-price">
                                 <div className="price">Ksh{item.price}</div>
-                                <div className="seller">product seller</div>
+                                <div className="seller">product seller: <span>{item.farmerName}</span></div>
                             </div>
-                            <button className="remove-button">Remove</button>
                         </div>
                     </div>
 

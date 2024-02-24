@@ -133,7 +133,7 @@ const SingleProductPage = () => {
                 <h2>{productDetails.title}</h2>
                 <p className="price">Ksh {productDetails.price}</p>
                 <p className="description">{productDetails.desc}</p>
-                <p className="seller">Seller: seller name</p>
+                <p className="seller">Seller: {productDetails.farmerName}</p>
                 <div className="counter-comp">
                     <button className="add-to-cart" onClick={addToCart}>Add to Cart</button>
                     <div className="quantity-container">
