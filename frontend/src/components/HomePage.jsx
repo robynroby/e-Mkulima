@@ -6,7 +6,7 @@ const HomePage = () => {
     const navigate = useNavigate();
 
     const handleRedirect = () => {
-        navigate('/products');
+        navigate('/products/page/1');
     }
 
     return (
