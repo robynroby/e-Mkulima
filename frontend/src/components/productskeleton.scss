@@ -1,0 +1,38 @@
+.product-skeleton {
+    margin-left: 40px;
+
+    .image-skeleton {
+        width: 200px;
+        height: 200px;
+        background-color: #dfdfdf;
+        border-radius: 1px;
+        margin-bottom: 20px;
+        animation: loading 1s infinite alternate;
+    }
+
+    .title-skeleton {
+        width: 100px;
+        height: 20px;
+        background-color: #dfdfdf;
+        margin-bottom: 5px;
+        animation: loading 1s infinite alternate;
+    }
+
+    .price-skeleton {
+        width: 100px;
+        height: 20px;
+        background-color: #dfdfdf;
+        margin-bottom: 20px;
+        animation: loading 1s infinite alternate;
+    }
+
+    @keyframes loading {
+        0% {
+            opacity: 0.5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+}

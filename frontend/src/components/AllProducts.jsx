@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CardProducts from './CardProducts';
 import Pagination from './Pagination';
 import './AllProducts.scss';
+import ProductSkeleton from './ProductSkeleton';
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
@@ -65,19 +66,6 @@ const AllProducts = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
-    if (loading) {
-        return <p
-            style={
-                {
-                    fontSize: '2rem',
-                    fontWeight: 'bold',
-                    color: '#333',
-                    textAlign: 'center',
-                    marginTop: '5rem',
-                }
-            }
-        >Loading Products...</p>;
-    }
 
     return (
         <div className='products-container'>
@@ -93,9 +81,21 @@ const AllProducts = () => {
                 <button className='category' onClick={() => handleCategoryChange('Others')}>Others</button>
             </div>
             <div className="products">
-                {currentItems.map((product) => (
-                    <CardProducts key={product._id} product={product} />
-                ))}
+                {loading ? ( // Render skeleton if loading is true
+                    <div className='skeleton-container'>
+                        <ProductSkeleton />
+                        <ProductSkeleton />
+                        <ProductSkeleton />
+                        <ProductSkeleton />
+                        <ProductSkeleton />
+                        <ProductSkeleton />
+                    </div>
+                ) : (
+                    // Render product cards
+                    currentItems.map((product) => (
+                        <CardProducts key={product._id} product={product} />
+                    ))
+                )}
             </div>
             <Pagination
                 currentPage={currentPage}
