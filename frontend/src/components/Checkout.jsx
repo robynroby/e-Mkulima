@@ -121,7 +121,7 @@ const CheckoutPage = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                setMessage(data.CustomerMessage);
+                setMessage("Enter your pin to complete the transaction.",data.CustomerMessage);
             })
             .catch((error) => {
                 console.error(error);
@@ -203,3 +203,5 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+
+// 3 days of doom

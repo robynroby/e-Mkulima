@@ -81,7 +81,7 @@ const stkPush = async (req, res) => {
         PartyB: 174379,
         PhoneNumber: phoneNumber,
         CallBackURL: "https://mydomain.com/path",
-        AccountReference: accountNumber,
+        AccountReference: "The GreenX Group",
         TransactionDesc: "Testing stk push",
     };
 
