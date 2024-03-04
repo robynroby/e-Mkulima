@@ -15,6 +15,29 @@ const AdminPage = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
+    //capture the location of whoever is posting the product
+    const [location, setLocation] = useState(null)
+
+    function handleLocationClick() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            console.log("Geolocation not supported");
+        }
+    }
+
+    function success(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        setLocation({ latitude, longitude });
+        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    }
+
+    function error() {
+        console.log("Unable to retrieve your location");
+    }
+
+
     //   decode token from local storage to check if admin is true
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -173,6 +196,7 @@ const AdminPage = () => {
                         <button type="submit" disabled={isSubmitting}>
                             Add Product
                         </button>
+                        <button onClick={handleLocationClick}>get location</button>
                     </div>
                 </form>
             </div>
