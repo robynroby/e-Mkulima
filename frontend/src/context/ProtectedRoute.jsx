@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const ProtectedRoute = (props) => {
@@ -14,8 +14,8 @@ const ProtectedRoute = (props) => {
         setAuthenticated(true);
     }
     useEffect(() => {
-            checkUserToken();
-        }, [authenticated]);
+        checkUserToken();
+    }, [authenticated]);
     return (
         <React.Fragment>
             {

@@ -16,7 +16,7 @@ const router = require("express").Router();
 
 // creaate a new product
 router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) => {
-    const { title, desc, price, category } = req.body;
+    const { title, desc, price, category, latitude, longitude } = req.body;
     const images = req.files.map(file => file.buffer);
 
     try {
@@ -27,6 +27,8 @@ router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) =
             category,
             price,
             farmerName: req.body.farmerName,
+            latitude,
+            longitude,
         });
 
         const savedProduct = await newProduct.save();

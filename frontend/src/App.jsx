@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { createBrowserRouter, RouterProvider, useNavigate, Outlet } from 'react-router-dom';
-import './App.css'
-import AllProducts from './components/AllProducts'
-import Footer from './components/Footer'
-import Navbar from './components/Navbar'
-import Cart from './components/Cart'
-import SingleProductPage from './components/SingleProductPage';
-import HomePage from './components/HomePage';
-import CheckoutPage from './components/Checkout';
-import SignUp from './components/AccessControl/Signup';
-import Login from './components/AccessControl/Login';
-import ProtectedRoute from './context/ProtectedRoute';
-import { UserContext } from './context/DataContext';
-import Account from './components/Account';
-import AdminPage from './components/AccessControl/AdminPage';
+import { useState } from 'react';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import './App.css';
 import Dashboard from './FarmerDashboard/Dashboard';
+import AdminPage from './components/AccessControl/AdminPage';
+import Login from './components/AccessControl/Login';
+import SignUp from './components/AccessControl/Signup';
+import Account from './components/Account';
+import AllProducts from './components/AllProducts';
+import Cart from './components/Cart';
+import CheckoutPage from './components/Checkout';
+import Footer from './components/Footer';
+import HomePage from './components/HomePage';
+import Navbar from './components/Navbar';
+import SingleProductPage from './components/SingleProductPage';
+import { UserContext } from './context/DataContext';
+import ProtectedRoute from './context/ProtectedRoute';
 
 
 const App = () => {
@@ -74,7 +74,7 @@ const App = () => {
           element: <Account />
         },
         {
-          path:"/admin",
+          path: "/admin",
           element: <AdminPage />
         }
       ]

@@ -1,8 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './sidebar.scss';
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login')

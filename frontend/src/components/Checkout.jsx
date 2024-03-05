@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Checkout.scss';
 
@@ -8,7 +8,7 @@ const CheckoutPage = () => {
 
     const navigate = useNavigate()
 
-    const handleredirect = () =>{
+    const handleredirect = () => {
         navigate("/cart")
     }
 
@@ -65,24 +65,24 @@ const CheckoutPage = () => {
     };
 
 
-    const removeItemFromCart = async (productId) => {
-        try {
-            // Make a DELETE request to remove the item from the cart
-            const response = await fetch(`http://localhost:5000/api/carts/${productId}`, {
-                method: 'DELETE',
-                // Include any necessary headers (e.g., authorization token)
-            });
+    // const removeItemFromCart = async (productId) => {
+    //     try {
+    //         // Make a DELETE request to remove the item from the cart
+    //         const response = await fetch(`http://localhost:5000/api/carts/${productId}`, {
+    //             method: 'DELETE',
+    //             // Include any necessary headers (e.g., authorization token)
+    //         });
 
-            if (response.ok) {
-                // Update the cart items after successful deletion
-                setCartItems(cartItems.filter(item => item._id !== productId));
-            } else {
-                console.error('Error deleting item from cart:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
-    };
+    //         if (response.ok) {
+    //             // Update the cart items after successful deletion
+    //             setCartItems(cartItems.filter(item => item._id !== productId));
+    //         } else {
+    //             console.error('Error deleting item from cart:', response.statusText);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error.message);
+    //     }
+    // };
 
 
     const [phone, setPhone] = useState('');
@@ -121,7 +121,7 @@ const CheckoutPage = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                setMessage("Enter your pin to complete the transaction.",data.CustomerMessage);
+                setMessage("Enter your pin to complete the transaction.", data.CustomerMessage);
             })
             .catch((error) => {
                 console.error(error);

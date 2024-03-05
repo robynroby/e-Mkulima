@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
 import './Admin.scss';
 
 const AdminPage = () => {
@@ -9,6 +9,8 @@ const AdminPage = () => {
         img: [],
         price: '',
         category: '',
+        latitude: '',
+        longitude: '',
     });
 
     const [errors, setErrors] = useState('');
@@ -17,14 +19,7 @@ const AdminPage = () => {
 
     //capture the location of whoever is posting the product
     const [location, setLocation] = useState(null)
-
-    function handleLocationClick() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(success, error);
-        } else {
-            console.log("Geolocation not supported");
-        }
-    }
+    console.log(location)
 
     function success(position) {
         const latitude = position.coords.latitude;
@@ -64,13 +59,23 @@ const AdminPage = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            console.log("Geolocation not supported");
+        }
+
         try {
             const token = localStorage.getItem('token');
             const username = localStorage.getItem('username');
 
-            console.log(username)
+            let latitude = '';
+            let longitude = '';
+            if (location) {
+                latitude = location.latitude;
+                longitude = location.longitude;
+            }
 
-            console.log(formData);
 
             const formDataForServer = new FormData();
             formDataForServer.append('title', formData.title);
@@ -82,7 +87,9 @@ const AdminPage = () => {
             }
 
             formDataForServer.append('category', formData.category);
-            formDataForServer.append('farmerName', username); // Add the user's name to the formDataForServer
+            formDataForServer.append('farmerName', username);
+            formDataForServer.append('latitude', latitude);
+            formDataForServer.append('longitude', longitude);
 
             console.log(formDataForServer);
 
@@ -196,7 +203,7 @@ const AdminPage = () => {
                         <button type="submit" disabled={isSubmitting}>
                             Add Product
                         </button>
-                        <button onClick={handleLocationClick}>get location</button>
+                        {/* <button onClick={handleLocationClick}>get location</button> */}
                     </div>
                 </form>
             </div>
