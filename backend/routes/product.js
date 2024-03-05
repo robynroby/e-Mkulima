@@ -90,7 +90,7 @@ router.get("/", async (req, res) => {
     const qNew = req.query.new;
     const qCategory = req.query.category;
     const page = parseInt(req.query.page) || 1;
-    const limit = 9;
+    const limit = 6;
     const skip = (page - 1) * limit;
 
     try {

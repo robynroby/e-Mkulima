@@ -81,7 +81,7 @@ const AllProducts = () => {
                 <button className='category' onClick={() => handleCategoryChange('Others')}>Others</button>
             </div>
             <div className="products">
-                {loading ? ( // Render skeleton if loading is true
+                {loading ? (
                     <div className='skeleton-container'>
                         <ProductSkeleton />
                         <ProductSkeleton />
