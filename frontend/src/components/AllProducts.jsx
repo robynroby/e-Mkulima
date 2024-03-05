@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import './AllProducts.scss';
 import CardProducts from './CardProducts';
 import Pagination from './Pagination';
-import './AllProducts.scss';
 import ProductSkeleton from './ProductSkeleton';
 
 const AllProducts = () => {
