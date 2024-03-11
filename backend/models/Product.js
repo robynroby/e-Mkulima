@@ -21,13 +21,9 @@ const ProductSchema = new mongoose.Schema(
         },
         farmerName: { type: String, required: true },
         price: { type: Number, required: true },
-        latitude: {
-            type: Number,
-            default: null
-        },
-        longitude: {
-            type: Number,
-            default: null
+        location: {
+            type: { type: String, enum: ['Point'], default: 'Point' },
+            coordinates: { type: [Number], required: true },
         }
     },
     { timestamps: true }
@@ -36,5 +32,3 @@ const ProductSchema = new mongoose.Schema(
 ProductSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model("Product", ProductSchema);
-
-

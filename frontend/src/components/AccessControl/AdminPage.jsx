@@ -9,8 +9,6 @@ const AdminPage = () => {
         img: [],
         price: '',
         category: '',
-        latitude: '',
-        longitude: '',
     });
 
     const [errors, setErrors] = useState('');
@@ -18,15 +16,14 @@ const AdminPage = () => {
     const [isAdmin, setIsAdmin] = useState(false);
 
     //capture the location of whoever is posting the product
-    const [location, setLocation] = useState(null)
-    console.log(location)
+    // const [location, setLocation] = useState(null)
 
-    function success(position) {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        setLocation({ latitude, longitude });
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-    }
+    // function success(position) {
+    //     const latitude = position.coords.latitude;
+    //     const longitude = position.coords.longitude;
+    //     setLocation({ latitude, longitude });
+    //     console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    // }
 
     function error() {
         console.log("Unable to retrieve your location");
@@ -63,19 +60,24 @@ const AdminPage = () => {
             navigator.geolocation.getCurrentPosition(success, error);
         } else {
             console.log("Geolocation not supported");
+            setIsSubmitting(false); // Set submitting state to false
         }
+    };
 
+    const success = (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        // setLocation({ latitude, longitude });
+        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+        // After getting the location, proceed with form submission
+        submitFormData(latitude, longitude);
+    };
+
+    const submitFormData = async (latitude, longitude) => { // Pass latitude and longitude as arguments
         try {
             const token = localStorage.getItem('token');
             const username = localStorage.getItem('username');
-
-            let latitude = '';
-            let longitude = '';
-            if (location) {
-                latitude = location.latitude;
-                longitude = location.longitude;
-            }
-
 
             const formDataForServer = new FormData();
             formDataForServer.append('title', formData.title);
@@ -88,10 +90,19 @@ const AdminPage = () => {
 
             formDataForServer.append('category', formData.category);
             formDataForServer.append('farmerName', username);
-            formDataForServer.append('latitude', latitude);
-            formDataForServer.append('longitude', longitude);
 
-            console.log(formDataForServer);
+            // Check if latitude and longitude are valid before constructing location object
+            if (latitude !== null && longitude !== null) {
+                // Construct the location object
+                const locationObj = {
+                    type: "Point",
+                    coordinates: [parseFloat(longitude), parseFloat(latitude)]
+                };
+
+                formDataForServer.append('location', JSON.stringify(locationObj));
+            } else {
+                throw new Error("Invalid geolocation data");
+            }
 
             const response = await fetch('http://localhost:5000/api/products', {
                 method: 'POST',

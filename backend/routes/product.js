@@ -1,9 +1,9 @@
 const Product = require("../models/Product");
 const express = require('express');
 const multer = require('multer');
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const { validationResult } = require('express-validator');
 
 
 const {
@@ -14,9 +14,9 @@ const {
 
 const router = require("express").Router();
 
-// creaate a new product
+// Create a new product
 router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) => {
-    const { title, desc, price, category, latitude, longitude } = req.body;
+    const { title, desc, price, category, location } = req.body;
     const images = req.files.map(file => file.buffer);
 
     try {
@@ -27,8 +27,7 @@ router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) =
             category,
             price,
             farmerName: req.body.farmerName,
-            latitude,
-            longitude,
+            location: JSON.parse(location)
         });
 
         const savedProduct = await newProduct.save();
@@ -41,6 +40,7 @@ router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) =
         }
     }
 });
+
 
 //UPDATE
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
@@ -93,6 +93,18 @@ router.get("/", async (req, res) => {
     const limit = 6;
     const skip = (page - 1) * limit;
 
+    // Extract latitude and longitude from query parameters
+    const { latitude: userLatitude, longitude: userLongitude } = req.query;
+
+    console.log("Latitude:", userLatitude);
+    console.log("Longitude:", userLongitude);
+
+    // Validate user coordinates
+    const errors = validationResult(req.query);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: "Invalid latitude or longitude" });
+    }
+
     try {
         let products;
 
@@ -102,10 +114,28 @@ router.get("/", async (req, res) => {
         } else if (qCategory) {
             // Fetch products by category with pagination
             products = await Product.find({
-                categories: {
+                category: {
                     $in: [qCategory],
                 },
             }).limit(limit).skip(skip);
+        } else if (userLatitude && userLongitude) {
+            // Fetch all products and filter those within 40km radius based on user's location
+
+            // Assuming you have GeoJSON in the product schema
+            const userLocation = {
+                type: "Point",
+                coordinates: [parseFloat(userLongitude), parseFloat(userLatitude)],
+            };
+
+            const query = {
+                location: {
+                    $geoWithin: {
+                        $centerSphere: [userLocation.coordinates, 40000 / 6371000], // Convert 40km to radians
+                    },
+                },
+            };
+
+            products = await Product.find(query).limit(limit).skip(skip);
         } else {
             // Fetch all products with pagination
             products = await Product.find().limit(limit).skip(skip);
@@ -122,6 +152,5 @@ router.get("/", async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 module.exports = router;

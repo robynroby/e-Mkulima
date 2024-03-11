@@ -11,13 +11,15 @@ const AllProducts = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(6);
-
+    const [userLatitude, setUserLatitude] = useState(null);
+    const [userLongitude, setUserLongitude] = useState(null);
+    console.log(userLatitude,userLongitude)
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:5000/api/products?page=${currentPage}`, {
+                const response = await fetch(`http://localhost:5000/api/products?page=${currentPage}&latitude=${userLatitude}&longitude=${userLongitude}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -27,10 +29,7 @@ const AllProducts = () => {
                 }
                 const data = await response.json();
                 setProducts(data);
-                console.log(data)
                 setLoading(false);
-                const productIdentifiers = data.map((product) => ({ _id: product._id, title: product.title }));
-                localStorage.setItem('productIdentifiers', JSON.stringify(productIdentifiers));
             } catch (error) {
                 console.error('Error fetching products:', error.message);
                 setLoading(false);
@@ -42,7 +41,7 @@ const AllProducts = () => {
         // Fetch products every minute
         const intervalId = setInterval(fetchProducts, 60000);
         return () => clearInterval(intervalId);
-    }, []);
+    }, [currentPage, userLatitude, userLongitude]);
 
     useEffect(() => {
         // Filter products based on current category
@@ -62,10 +61,26 @@ const AllProducts = () => {
         setCurrentPage(page);
     };
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+    useEffect(() => {
+        // Get user's location
+        const getUserLocation = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        setUserLatitude(position.coords.latitude);
+                        setUserLongitude(position.coords.longitude);
+                    },
+                    function (error) {
+                        console.error("Error getting user location:", error);
+                    }
+                );
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        };
 
+        getUserLocation();
+    }, []);
 
     return (
         <div className='products-container'>
@@ -92,7 +107,7 @@ const AllProducts = () => {
                     </div>
                 ) : (
                     // Render product cards
-                    currentItems.map((product) => (
+                    filteredProducts.map((product) => (
                         <CardProducts key={product._id} product={product} />
                     ))
                 )}
