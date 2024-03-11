@@ -15,6 +15,7 @@ import Navbar from './components/Navbar';
 import SingleProductPage from './components/SingleProductPage';
 import { UserContext } from './context/DataContext';
 import ProtectedRoute from './context/ProtectedRoute';
+import LoadingScreen from './components/loadingScreen/LoadingScreen';
 
 
 const App = () => {
@@ -76,6 +77,10 @@ const App = () => {
         {
           path: "/admin",
           element: <AdminPage />
+        },
+        {
+          path: "/loading",
+          element: <LoadingScreen />
         }
       ]
 
