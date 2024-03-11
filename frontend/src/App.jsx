@@ -13,9 +13,9 @@ import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import Navbar from './components/Navbar';
 import SingleProductPage from './components/SingleProductPage';
+import LoadingScreen from './components/loadingScreen/LoadingScreen';
 import { UserContext } from './context/DataContext';
 import ProtectedRoute from './context/ProtectedRoute';
-import LoadingScreen from './components/loadingScreen/LoadingScreen';
 
 
 const App = () => {
