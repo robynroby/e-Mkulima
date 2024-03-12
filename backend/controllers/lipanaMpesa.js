@@ -41,7 +41,7 @@ const stkPush = async (req, res) => {
     const token = req.token;
     const shortCode = 174379;
     let phoneNumber = req.body.phone;
-    const accountNumber = req.body.accountNumber;
+    // const accountNumber = req.body.accountNumber;
     const amount = req.body.amount;
 
     if (phoneNumber.startsWith("0")) {
@@ -54,7 +54,7 @@ const stkPush = async (req, res) => {
 
     //ECHO  THE DATA THAT WE RECEIVED FROM THE CLIENT
     console.log("Phone Number:", phoneNumber);
-    console.log("Account Number:", accountNumber);
+    // console.log("Account Number:", accountNumber);
     console.log("Amount:", amount);
 
     const passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";

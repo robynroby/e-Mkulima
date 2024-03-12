@@ -3,7 +3,7 @@ const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 
-//REGISTER
+// Register
 router.post("/register", async (req, res) => {
     const newUser = new User({
         username: req.body.username,
@@ -12,6 +12,7 @@ router.post("/register", async (req, res) => {
             req.body.password,
             process.env.PASS_SEC
         ).toString(),
+        role: req.body.role // Add role to the user during registration
     });
 
     try {
@@ -22,7 +23,7 @@ router.post("/register", async (req, res) => {
     }
 });
 
-//LOGIN
+// Login
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({
@@ -54,7 +55,7 @@ router.post('/login', async (req, res) => {
         const accessToken = jwt.sign(
             {
                 id: user._id,
-                isAdmin: user.isAdmin,
+                role: user.role // Include role in the JWT payload
             },
             process.env.JWT_SEC,
             { expiresIn: "3d" }
@@ -69,34 +70,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// logout user and invalidate token
-// router.post('/logout', async (req, res) => {
-//     try {
-//         const user = await User.findOne({
-//             username: req.body.username
-//         });
-
-//         if (!user) {
-//             return res.status(401).json("Wrong User Name");
-//         }
-
-//         const accessToken = jwt.sign(
-//             {
-//                 id: user._id,
-//                 isAdmin: user.isAdmin,
-//             },
-//             process.env.JWT_SEC,
-//             { expiresIn: "1ms" }
-//         );
-
-//         const { password, ...others } = user._doc;
-//         res.status(200).json({ ...others, accessToken });
-
-//     } catch (err) {
-//         console.error('Logout error:', err);
-//         res.status(500).json('Internal server error');
-//     }
-// });
 
 
 module.exports = router;
