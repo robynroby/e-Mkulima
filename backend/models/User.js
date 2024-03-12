@@ -10,6 +10,10 @@ const UserSchema = new mongoose.Schema(
             enum: ['farmer', 'buyer'],
             required: true
         },
+        isAdmin: {
+            type: Boolean,
+            default: false,
+        },
     },
     { timestamps: true }
 );

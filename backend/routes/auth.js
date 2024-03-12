@@ -55,7 +55,8 @@ router.post('/login', async (req, res) => {
         const accessToken = jwt.sign(
             {
                 id: user._id,
-                role: user.role // Include role in the JWT payload
+                role: user.role, // Include role in the JWT payload
+                isAdmin: user.isAdmin
             },
             process.env.JWT_SEC,
             { expiresIn: "3d" }
