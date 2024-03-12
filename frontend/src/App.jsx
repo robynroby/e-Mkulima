@@ -4,7 +4,7 @@ import './App.css';
 import Dashboard from './FarmerDashboard/Dashboard';
 import AdminPage from './components/AccessControl/AdminPage';
 import Login from './components/AccessControl/Login';
-import SignUp from './components/AccessControl/Signup';
+import SignUp from './components/AccessControl/FarmerSignup';
 import Account from './components/Account';
 import AllProducts from './components/AllProducts';
 import Cart from './components/Cart';
@@ -16,6 +16,7 @@ import SingleProductPage from './components/SingleProductPage';
 import LoadingScreen from './components/loadingScreen/LoadingScreen';
 import { UserContext } from './context/DataContext';
 import ProtectedRoute from './context/ProtectedRoute';
+import BuyerSignUp from './components/AccessControl/BuyerSignup';
 
 
 const App = () => {
@@ -93,6 +94,10 @@ const App = () => {
     {
       path: "/farmer/register",
       element: <SignUp />
+    },
+    {
+      path: "/buyer/register",
+      element: <BuyerSignUp />
     },
     {
       path: "/fdashboard",

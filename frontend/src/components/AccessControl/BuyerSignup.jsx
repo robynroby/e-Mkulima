@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AC.scss';
 
-const SignUp = () => {
+const BuyerSignUp = () => {
     const [errors, setErrors] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
-        role: 'farmer',
+        role: 'buyer',
     });
 
     const navigate = useNavigate();
@@ -54,6 +54,7 @@ const SignUp = () => {
         <div className="signup-page">
             <div className="signup-container">
                 <h2>Create an Account</h2>
+                <h3>Create an account as a Buyer</h3>
                 <p className="error-message">{errors}</p>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -73,6 +74,7 @@ const SignUp = () => {
                     </div>
                     <div className="redirect-text">
                         <p>Already have an account? <a href="/login">Login</a></p>
+                        <p>Are you a seller? <a href="/farmer/register">Sign up as a Farmer</a></p>
                     </div>
                 </form>
             </div>
@@ -80,4 +82,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default BuyerSignUp;
