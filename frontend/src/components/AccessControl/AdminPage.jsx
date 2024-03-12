@@ -13,7 +13,7 @@ const AdminPage = () => {
 
     const [errors, setErrors] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isFarmer, setIsFarmer] = useState(false);
 
     //capture the location of whoever is posting the product
     // const [location, setLocation] = useState(null)
@@ -34,8 +34,8 @@ const AdminPage = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         const decodedToken = jwtDecode(token);
-        if (decodedToken.isAdmin) {
-            setIsAdmin(true);
+        if (decodedToken.role === "farmer") {
+            setIsFarmer(true);
         }
     }, []);
 
@@ -129,7 +129,7 @@ const AdminPage = () => {
             setIsSubmitting(false);
         }
     };
-    if (!isAdmin) {
+    if (!isFarmer) {
         return <div
             style={
                 {
