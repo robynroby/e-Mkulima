@@ -69,7 +69,6 @@ const CheckoutPage = () => {
     };
 
     const [phone, setPhone] = useState('');
-    const [accountNumber, setAccountNumber] = useState('');
     const [amount, setAmount] = useState('');
     const [message, setMessage] = useState('');
 
@@ -77,9 +76,6 @@ const CheckoutPage = () => {
         setPhone(e.target.value);
     };
 
-    const handleAccountNumberChange = (e) => {
-        setAccountNumber(e.target.value);
-    };
     const handleCalculateTotal = () => {
         const totalAmount = calculateTotal();
         setAmount(totalAmount);
@@ -99,7 +95,7 @@ const CheckoutPage = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ phone: phone, accountNumber: accountNumber, amount: amount }),
+            body: JSON.stringify({ phone: phone, amount: amount }),
         })
             .then((response) => response.json())
             .then((data) => {
@@ -130,16 +126,7 @@ const CheckoutPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="form-group">
-                    <input
-                        type="text"
-                        id="accountNumber"
-                        value={accountNumber}
-                        onChange={handleAccountNumberChange}
-                        placeholder='Account Number'
-                        required
-                    />
-                </div>
+
                 <div className="form-group">
                     <input type="text" placeholder="City" id="city" />
                 </div>
