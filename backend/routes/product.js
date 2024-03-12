@@ -10,7 +10,7 @@ const {
     verifyToken,
     verifyTokenAndAuthorization,
     verifyTokenAndAdmin,
-    verifyFarmer,
+    verifyFarmer
 } = require("./verifyToken");
 
 const router = require("express").Router();
@@ -60,7 +60,7 @@ router.put("/:id", verifyFarmer, async (req, res) => {
 });
 
 //DELETE
-router.delete("/:id", verifyFarmer,verifyTokenAndAdmin, async (req, res) => {
+router.delete("/:id", verifyFarmer, verifyTokenAndAdmin, async (req, res) => {
     try {
         await Product.findByIdAndDelete(req.params.id);
         res.status(200).json("Product has been deleted...");

@@ -49,5 +49,6 @@ module.exports = {
     verifyToken,
     verifyTokenAndAuthorization,
     verifyTokenAndAdmin,
+    verifyFarmer
 };
 

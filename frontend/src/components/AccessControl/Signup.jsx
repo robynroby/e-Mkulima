@@ -8,7 +8,8 @@ const SignUp = () => {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        role: 'farmer',
     });
 
     const navigate = useNavigate();
