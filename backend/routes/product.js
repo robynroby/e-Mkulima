@@ -10,12 +10,13 @@ const {
     verifyToken,
     verifyTokenAndAuthorization,
     verifyTokenAndAdmin,
+    verifyFarmer,
 } = require("./verifyToken");
 
 const router = require("express").Router();
 
 // Create a new product
-router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) => {
+router.post("/", verifyFarmer, upload.array('img', 5), async (req, res) => {
     const { title, desc, price, category, location } = req.body;
     const images = req.files.map(file => file.buffer);
 
@@ -43,7 +44,7 @@ router.post("/", verifyTokenAndAdmin, upload.array('img', 5), async (req, res) =
 
 
 //UPDATE
-router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.put("/:id", verifyFarmer, async (req, res) => {
     try {
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
@@ -59,7 +60,7 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //DELETE
-router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.delete("/:id", verifyFarmer,verifyTokenAndAdmin, async (req, res) => {
     try {
         await Product.findByIdAndDelete(req.params.id);
         res.status(200).json("Product has been deleted...");

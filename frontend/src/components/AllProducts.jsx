@@ -13,7 +13,6 @@ const AllProducts = () => {
     const [itemsPerPage] = useState(6);
     const [userLatitude, setUserLatitude] = useState(null);
     const [userLongitude, setUserLongitude] = useState(null);
-    console.log(userLatitude,userLongitude)
 
     useEffect(() => {
         const fetchProducts = async () => {
