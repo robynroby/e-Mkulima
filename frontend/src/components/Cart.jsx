@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cart.scss';
 
@@ -69,7 +69,7 @@ const Cart = () => {
                 method: 'DELETE',
                 headers: {
                     'token': `Bearer ${token}`,
-                    
+
                 },
                 body: JSON.stringify({ productId: productId }),
             });
@@ -118,7 +118,9 @@ const Cart = () => {
                 {cart.map((item) => (
                     <div className="cart-item" key={item.productId}>
                         <div className="item-details">
-                            <img src={`data:image/jpeg;base64,${item.img[0]}`} alt={item.title} />
+                            {item.img && item.img[0] && (
+                                <img src={`data:image/jpeg;base64,${item.img[0]}`} alt={item.title} />
+                            )}
                         </div>
                         <div className="item-dt">
                             <span className="item-name">{item.title}</span>

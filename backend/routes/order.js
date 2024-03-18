@@ -3,12 +3,12 @@ const {
     verifyToken,
     verifyTokenAndAuthorization,
     verifyTokenAndAdmin,
+    verifyFarmer,
 } = require("./verifyToken");
 
 const router = require("express").Router();
 
 //CREATE
-
 router.post("/", verifyToken, async (req, res) => {
     const newOrder = new Order(req.body);
 
@@ -21,7 +21,7 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 //UPDATE
-router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.put("/:id", verifyFarmer, async (req, res) => {
     try {
         const updatedOrder = await Order.findByIdAndUpdate(
             req.params.id,
@@ -56,9 +56,8 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
     }
 });
 
-// //GET ALL
-
-router.get("/", verifyTokenAndAdmin, async (req, res) => {
+ //GET ALL
+router.get("/", verifyFarmer, async (req, res) => {
     try {
         const orders = await Order.find();
         res.status(200).json(orders);
@@ -68,8 +67,7 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
 });
 
 // GET MONTHLY INCOME
-
-router.get("/income", verifyTokenAndAdmin, async (req, res) => {
+router.get("/income",verifyFarmer, verifyTokenAndAdmin, async (req, res) => {
     const date = new Date();
     const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
     const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));

@@ -25,7 +25,6 @@
 
         .price {
             font-size: 18px;
-            // font-weight: bold;
             margin-bottom: 15px;
         }
 
@@ -89,6 +88,32 @@
                 }
             }
         }
+    }
 
+    // Media Queries
+    @media (max-width: 768px) {
+        flex-direction: column;
+
+        .product-images {
+            grid-template-columns: 1fr;
+            gap: 16px;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .product-details {
+            padding: 20px;
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .description {
+                width: 100%;
+            }
+        }
     }
 }
