@@ -7,7 +7,35 @@ const SingleProductPage = () => {
     const [productDetails, setProductDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const { id } = useParams();
+    const [address, setAddress] = useState('');
     // const navigate = useNavigate();
+
+    // make coordinates readable
+    const longlat = productDetails.location ? productDetails.location.coordinates : [0, 0];
+
+    const getAddress = async () => {
+        try {
+            const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${longlat[1]}&longitude=${longlat[0]}&localityLanguage=en`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch address');
+            }
+            const data = await response.json();
+            console.log('Address:', data);
+            // Set the product details in state
+            setAddress(data);
+            console.log('Address:', data.locality);
+            // setLoading(false);
+        } catch (error) {
+            console.error('Error fetching address:', error.message);
+            // setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        getAddress();
+    }, [longlat]);
+
+
 
     const addToCart = async () => {
         try {
@@ -107,6 +135,8 @@ const SingleProductPage = () => {
         return () => clearInterval(intervalId);
     }, [id]);
 
+
+
     if (loading) {
         return <p
             style={{
@@ -134,6 +164,7 @@ const SingleProductPage = () => {
                 <p className="price">Ksh {productDetails.price}</p>
                 <p className="description">{productDetails.desc}</p>
                 <p className="seller">Seller: {productDetails.farmerName}</p>
+                <p className="location">Location: {address.locality}</p>
                 <div className="counter-comp">
                     <button className="add-to-cart" onClick={addToCart}>Add to Cart</button>
                     <div className="quantity-container">

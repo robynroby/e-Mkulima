@@ -28,6 +28,7 @@ const AllProducts = () => {
                 }
                 const data = await response.json();
                 setProducts(data);
+                console.log(data)
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching products:', error.message);
