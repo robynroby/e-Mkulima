@@ -62,23 +62,25 @@ const Cart = () => {
         fetchCartData();
     }, []);
 
-    const removeItemFromCart = async (productId) => {
+    const removeItemFromCart = async (_id) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:5000/api/carts/${productId}`, {
-                method: 'DELETE',
+            const response = await fetch(`http://localhost:5000/api/carts/remove/${_id}`, {
+                method: 'PUT',
                 headers: {
                     'token': `Bearer ${token}`,
 
                 },
-                body: JSON.stringify({ productId: productId }),
+                body: JSON.stringify({ _id }),
             });
 
             if (response.ok) {
                 // Update the cart state to remove the deleted item
-                setCart(cart.filter(item => item._id !== productId));
+                setCart(cart.filter(item => item._id !== _id));
+
+                console.log('Item removed from cart successfully');
             } else {
-                console.error('Error deleting item from cart:', response.statusText);
+                console.error('Error removing item from cart:', response.statusText);
             }
         } catch (error) {
             console.error('Error:', error.message);
@@ -129,7 +131,7 @@ const Cart = () => {
                                 <span className="item-price">Ksh {item.price * item.quantity}</span>
                                 <span className="item-seller">Sold by: {item.farmerName}</span>
                             </div>
-                            <button className='remove-link' onClick={() => removeItemFromCart(item.productId)}>Remove</button>
+                            <button className='remove-link' onClick={() => removeItemFromCart(item._id)}>Remove</button>
                         </div>
                     </div>
                 ))}

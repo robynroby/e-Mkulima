@@ -20,10 +20,8 @@ const SingleProductPage = () => {
                 throw new Error('Failed to fetch address');
             }
             const data = await response.json();
-            console.log('Address:', data);
             // Set the product details in state
             setAddress(data);
-            console.log('Address:', data.locality);
             // setLoading(false);
         } catch (error) {
             console.error('Error fetching address:', error.message);

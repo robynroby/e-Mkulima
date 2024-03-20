@@ -19,32 +19,26 @@ router.post("/", verifyToken, async (req, res) => {
     }
 });
 
-// UPDATE
-router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.put('/remove/:_id', verifyToken, async (req, res) => {
     try {
-        const cart = await Cart.findById(req.params.id);
+        const userId = req.user.id; // Assuming you have middleware to extract user ID from the request
+        const _id = req.params._id;
 
-        if (!cart) {
-            return res.status(404).json({ message: "Cart not found" });
-        }
-
-        // Check if the product already exists in the cart
-        const existingProduct = cart.products.find(
-            (product) => product.productId === req.body.products[0].productId
+        // Find the user's cart and remove the specified product
+        const cart = await Cart.findOneAndUpdate(
+            { userId: userId },
+            { $pull: { products: { _id: _id } } },
+            { new: true }
         );
 
-        if (existingProduct) {
-            // If the product exists, update its quantity
-            existingProduct.quantity += req.body.products[0].quantity;
-        } else {
-            // If the product doesn't exist, add it to the cart
-            cart.products.push(req.body.products[0]);
+        if (!cart) {
+            return res.status(404).json({ message: 'Cart not found' });
         }
 
-        const updatedCart = await cart.save();
-        res.status(200).json(updatedCart);
-    } catch (err) {
-        res.status(500).json(err);
+        res.json({ message: 'Item removed from cart successfully', cart: cart });
+    } catch (error) {
+        console.error('Error removing item from cart:', error);
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
@@ -80,7 +74,6 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     }
 });
 
-// remove a product from the cart
 
 
 module.exports = router;
