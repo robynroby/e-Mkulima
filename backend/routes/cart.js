@@ -74,6 +74,36 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     }
 });
 
+// UPDATE
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+    try {
+        const cart = await Cart.findById(req.params.id);
+
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found" });
+        }
+
+        // Check if the product already exists in the cart
+        const existingProduct = cart.products.find(
+            (product) => product.productId === req.body.products[0].productId
+        );
+
+        if (existingProduct) {
+            // If the product exists, update its quantity
+            existingProduct.quantity += req.body.products[0].quantity;
+        } else {
+            // If the product doesn't exist, add it to the cart
+            cart.products.push(req.body.products[0]);
+        }
+
+        const updatedCart = await cart.save();
+        res.status(200).json(updatedCart);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+
 
 
 module.exports = router;
