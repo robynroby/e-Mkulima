@@ -62,28 +62,60 @@ const Cart = () => {
         fetchCartData();
     }, []);
 
-    const removeItemFromCart = async (_id) => {
+    const handleRemoveItem = async (productId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:5000/api/carts/remove/${_id}`, {
-                method: 'PUT',
+            const userId = localStorage.getItem('userId');
+
+            if (!token || !userId) {
+                throw new Error('User not authenticated');
+            }
+
+            const cartResponse = await fetch(`http://localhost:5000/api/carts/find/${userId}`, {
                 headers: {
                     'token': `Bearer ${token}`,
-
                 },
-                body: JSON.stringify({ _id }),
             });
 
-            if (response.ok) {
-                // Update the cart state to remove the deleted item
-                setCart(cart.filter(item => item._id !== _id));
-
-                console.log('Item removed from cart successfully');
-            } else {
-                console.error('Error removing item from cart:', response.statusText);
+            if (!cartResponse.ok) {
+                throw new Error('Failed to fetch user cart');
             }
+
+            const cartData = await cartResponse.json();
+            console.log('Cart data:', cartData);
+
+            // If the cart exists, update it; otherwise, create a new cart
+            const cartId = cartData ? cartData._id : null;
+
+            const cartPayload = {
+                userId,
+                products: [
+                    {
+                        productId,
+                    },
+                ],
+            };
+
+            const response = await fetch(`http://localhost:5000/api/carts/remove/${cartId ? cartId : ''}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': `Bearer ${token}`,
+                },
+                body: JSON.stringify(cartPayload),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to remove product from cart');
+            }
+
+            const updatedCartData = await response.json();
+            console.log('Updated cart data:', updatedCartData);
+
+            // Now, you might want to update the cart state in the component
+            // or simply let the next fetchCartData call refresh the data
         } catch (error) {
-            console.error('Error:', error.message);
+            console.error('Error removing product from cart:', error.message);
         }
     };
 
@@ -131,7 +163,7 @@ const Cart = () => {
                                 <span className="item-price">Ksh {item.price * item.quantity}</span>
                                 <span className="item-seller">Sold by: {item.farmerName}</span>
                             </div>
-                            <button className='remove-link' onClick={() => removeItemFromCart(item._id)}>Remove</button>
+                            <button className='remove-link' onClick={() => handleRemoveItem(item.productId)}>Remove</button>
                         </div>
                     </div>
                 ))}
