@@ -106,5 +106,7 @@ router.put("/remove/:id", verifyToken, async (req, res) => {
     }
 });
 
+// fix bug in the remove from cart functionality
+
 
 module.exports = router;
