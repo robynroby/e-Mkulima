@@ -19,18 +19,18 @@ router.post("/", verifyToken, async (req, res) => {
     }
 });
 
-// //DELETE
-// router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
-//     try {
-//         await Cart.findByIdAndDelete(req.params.id);
-//         res.status(200).json("Cart has been deleted...");
-//     } catch (err) {
-//         res.status(500).json(err);
-//     }
-// });
+//DELETE
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+    try {
+        await Cart.findByIdAndDelete(req.params.id);
+        res.status(200).json("Cart has been deleted...");
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 //GET USER CART
-router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
+router.get("/find/:userId", verifyToken, async (req, res) => {
     try {
         const cart = await Cart.findOne({ userId: req.params.userId });
         res.status(200).json(cart);
@@ -78,26 +78,19 @@ router.put("/:id", verifyToken, async (req, res) => {
     }
 });
 
-// DELETE items from cart
-router.put("/remove/:id", verifyToken, async (req, res) => {
+// remove an item from cart whenever the user clicks the remove button
+router.put("/remove/:cartId", verifyToken, async (req, res) => {
     try {
-        const cart = await Cart.findById(req.params.id);
+        const cart = await Cart.findById(req.params.cartId);
 
         if (!cart) {
             return res.status(404).json({ message: "Cart not found" });
         }
 
-        // Check if the product already exists in the cart
-        const existingProductIndex = cart.products.findIndex(
-            (product) => product.productId === req.body.products[0].productId
+        // Filter out the product that the user wants to remove
+        cart.products = cart.products.filter(
+            (product) => product.productId !== req.body.products[0].productId
         );
-
-        if (existingProductIndex !== -1) {
-            // If the product exists, remove it from the cart
-            cart.products.splice(existingProductIndex, 1);
-        } else {
-            return res.status(404).json({ message: "Product not found in cart" });
-        }
 
         const updatedCart = await cart.save();
         res.status(200).json(updatedCart);
@@ -105,8 +98,5 @@ router.put("/remove/:id", verifyToken, async (req, res) => {
         res.status(500).json(err);
     }
 });
-
-// fix bug in the remove from cart functionality
-
 
 module.exports = router;
