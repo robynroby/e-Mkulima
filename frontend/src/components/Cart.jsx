@@ -104,7 +104,9 @@ const Cart = () => {
 
             const updatedCartData = await updatedCartResponse.json();
             console.log(updatedCartData);
+            
             alert('Item removed from cart successfully');
+            window.location.reload();
 
             const updatedProductsDetailsPromises = updatedProducts.map(async (product) => {
                 const productResponse = await fetch(`http://localhost:5000/api/products/find/${product.productId}`, {
