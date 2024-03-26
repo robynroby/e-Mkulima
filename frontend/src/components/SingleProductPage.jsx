@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './SingleProductPage.scss';
 
@@ -8,6 +8,7 @@ const SingleProductPage = () => {
     const [loading, setLoading] = useState(true);
     const { id } = useParams();
     const [address, setAddress] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
     // const navigate = useNavigate();
 
     // make coordinates readable
@@ -85,7 +86,7 @@ const SingleProductPage = () => {
 
             const data = await response.json();
             console.log('Product added to cart:', data);
-            alert('Product Sucessfully added to cart');
+            setSuccessMsg('Product Sucessfully added to cart');
         } catch (error) {
             console.error('Error adding product to cart:', error.message);
         }
@@ -149,33 +150,36 @@ const SingleProductPage = () => {
     }
 
     return (
-        <div className="single-product-page">
-            <div className="product-images">
-                {productDetails.img && productDetails.img.slice(0, 4).map((image, index) => (
-                    <div className="image" key={index}>
-                        <img src={`data:image/jpeg;base64,${image}`} alt={productDetails.title} />
-                    </div>
-                ))}
-            </div>
-            <div className="product-details">
-                <h2>{productDetails.title}</h2>
-                <p className="price">Ksh {productDetails.price}</p>
-                <p className="description">{productDetails.desc}</p>
-                <p className="seller">Seller: {productDetails.farmerName}</p>
-                <p className="location">Location: {address.locality}</p>
-                <div className="counter-comp">
-                    <button className="add-to-cart" onClick={addToCart}>Add to Cart</button>
-                    <div className="quantity-container">
-                        <p className="quantity-text">Quantity</p>
-                        <div className="quantity-control">
-                            <button className="quantity-btn" onClick={decreaseQuantity}>-</button>
-                            <span className="quantity">{quantity}</span>
-                            <button className="quantity-btn" onClick={increaseQuantity}>+</button>
+        <>
+            {successMsg && <p className="success-msg">{successMsg}</p>}
+            <div className="single-product-page">
+                <div className="product-images">
+                    {productDetails.img && productDetails.img.slice(0, 4).map((image, index) => (
+                        <div className="image" key={index}>
+                            <img src={`data:image/jpeg;base64,${image}`} alt={productDetails.title} />
+                        </div>
+                    ))}
+                </div>
+                <div className="product-details">
+                    <h2>{productDetails.title}</h2>
+                    <p className="price">Ksh {productDetails.price}</p>
+                    <p className="description">{productDetails.desc}</p>
+                    <p className="seller">Seller: {productDetails.farmerName}</p>
+                    <p className="location">Location: {address.locality}</p>
+                    <div className="counter-comp">
+                        <button className="add-to-cart" onClick={addToCart}>Add to Cart</button>
+                        <div className="quantity-container">
+                            <p className="quantity-text">Quantity</p>
+                            <div className="quantity-control">
+                                <button className="quantity-btn" onClick={decreaseQuantity}>-</button>
+                                <span className="quantity">{quantity}</span>
+                                <button className="quantity-btn" onClick={increaseQuantity}>+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

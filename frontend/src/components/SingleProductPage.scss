@@ -1,6 +1,16 @@
+.success-msg {
+    font-size: 14px;
+    color: #1e720a;
+    margin-bottom: 20px;
+    background-color: #c0e1b8;
+    padding: 10px;
+    border: 1px solid #1e720a;
+}
+
 .single-product-page {
     display: flex;
     padding: 20px;
+    margin-top: 20px;
 
     .product-images {
         display: grid;
@@ -49,7 +59,7 @@
             display: flex;
             align-items: center;
 
-            .add-to-cart{
+            .add-to-cart {
                 background-color: #0D0D0D;
                 color: #fff;
                 width: 100%;

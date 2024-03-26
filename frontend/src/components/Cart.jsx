@@ -5,6 +5,7 @@ import './Cart.scss';
 const Cart = () => {
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
+    // const [removeMsg, setRemoveMsg] = useState('');
 
     const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const shipping = 100;
@@ -105,8 +106,8 @@ const Cart = () => {
             const updatedCartData = await updatedCartResponse.json();
             console.log(updatedCartData);
             
-            alert('Item removed from cart successfully');
             window.location.reload();
+            // setRemoveMsg('Item removed from cart');
 
             const updatedProductsDetailsPromises = updatedProducts.map(async (product) => {
                 const productResponse = await fetch(`http://localhost:5000/api/products/find/${product.productId}`, {
@@ -158,6 +159,7 @@ const Cart = () => {
     return (
         <div className="cart">
             <div className="cart-items">
+                {/* <p className="remove-msg">{removeMsg}</p> */}
                 {cart.map((item) => (
                     <div className="cart-item" key={item.productId}>
                         <div className="item-details">
