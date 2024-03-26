@@ -5,7 +5,7 @@ import './Cart.scss';
 const Cart = () => {
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
-    // const [removeMsg, setRemoveMsg] = useState('');
+    const [removeMsg, setRemoveMsg] = useState('');
 
     const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const shipping = 100;
@@ -105,9 +105,9 @@ const Cart = () => {
 
             const updatedCartData = await updatedCartResponse.json();
             console.log(updatedCartData);
-            
+
             window.location.reload();
-            // setRemoveMsg('Item removed from cart');
+            setRemoveMsg('Item removed from cart');
 
             const updatedProductsDetailsPromises = updatedProducts.map(async (product) => {
                 const productResponse = await fetch(`http://localhost:5000/api/products/find/${product.productId}`, {
@@ -157,48 +157,50 @@ const Cart = () => {
     }
 
     return (
-        <div className="cart">
-            <div className="cart-items">
-                {/* <p className="remove-msg">{removeMsg}</p> */}
-                {cart.map((item) => (
-                    <div className="cart-item" key={item.productId}>
-                        <div className="item-details">
-                            {item.img && item.img[0] && (
-                                <img src={`data:image/jpeg;base64,${item.img[0]}`} alt={item.title} />
-                            )}
-                        </div>
-                        <div className="item-dt">
-                            <span className="item-name">{item.title}</span>
-                            <span className="item-quantity">Quantity: {item.quantity}</span>
-                            <div className="item-by">
-                                <span className="item-price">Ksh {item.price * item.quantity}</span>
-                                <span className="item-seller">Sold by: {item.farmerName}</span>
+        <>
+            <p className="remove-msg">{removeMsg}</p>
+            <div className="cart">
+                <div className="cart-items">
+                    {cart.map((item) => (
+                        <div className="cart-item" key={item.productId}>
+                            <div className="item-details">
+                                {item.img && item.img[0] && (
+                                    <img src={`data:image/jpeg;base64,${item.img[0]}`} alt={item.title} />
+                                )}
                             </div>
-                            <button className="remove-link" onClick={() => handleRemoveItem(item.productId)}>Remove</button>
+                            <div className="item-dt">
+                                <span className="item-name">{item.title}</span>
+                                <span className="item-quantity">Quantity: {item.quantity}</span>
+                                <div className="item-by">
+                                    <span className="item-price">Ksh {item.price * item.quantity}</span>
+                                    <span className="item-seller">Sold by: {item.farmerName}</span>
+                                </div>
+                                <button className="remove-link" onClick={() => handleRemoveItem(item.productId)}>Remove</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="order-summary">
+                    <h3>Order Summary</h3>
+                    <div className="totals">
+                        <div className="subtotal total-space">
+                            <span className="label">Subtotal</span>
+                            <span className="amount">Ksh {subtotal}</span>
+                        </div>
+                        <div className="shipping total-space">
+                            <span className="label">Shipping</span>
+                            <span className="amount">Ksh {shipping}</span>
+                        </div>
+                        <hr className="separator-line" />
+                        <div className="total total-space">
+                            <span className="label">Total</span>
+                            <span className="amount">Ksh {total}</span>
                         </div>
                     </div>
-                ))}
-            </div>
-            <div className="order-summary">
-                <h3>Order Summary</h3>
-                <div className="totals">
-                    <div className="subtotal total-space">
-                        <span className="label">Subtotal</span>
-                        <span className="amount">Ksh {subtotal}</span>
-                    </div>
-                    <div className="shipping total-space">
-                        <span className="label">Shipping</span>
-                        <span className="amount">Ksh {shipping}</span>
-                    </div>
-                    <hr className="separator-line" />
-                    <div className="total total-space">
-                        <span className="label">Total</span>
-                        <span className="amount">Ksh {total}</span>
-                    </div>
+                    <button className="checkout-button" onClick={handleCheckout}>Continue to Checkout</button>
                 </div>
-                <button className="checkout-button" onClick={handleCheckout}>Continue to Checkout</button>
             </div>
-        </div>
+        </>
     );
 };
 
