@@ -24,6 +24,9 @@ const Sidebar = () => {
                 <li>
                     <Link onClick={handleLogout}>logout</Link>
                 </li>
+                <li>
+                    <Link to="/">Back to Application</Link>
+                </li>
             </ul>
         </div>
     );

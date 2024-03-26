@@ -1,5 +1,4 @@
-import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './Admin.scss';
 
 const AdminPage = () => {
@@ -13,7 +12,6 @@ const AdminPage = () => {
 
     const [errors, setErrors] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isFarmer, setIsFarmer] = useState(false);
 
     //capture the location of whoever is posting the product
     // const [location, setLocation] = useState(null)
@@ -30,15 +28,7 @@ const AdminPage = () => {
     }
 
 
-    //   decode token from local storage to check if admin is true
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        const decodedToken = jwtDecode(token);
-        if (decodedToken.role === "farmer") {
-            setIsFarmer(true);
-        }
-    }, []);
-
+  
     const handleInputChange = (e) => {
         const { name, value, type, files } = e.target;
 
@@ -129,18 +119,7 @@ const AdminPage = () => {
             setIsSubmitting(false);
         }
     };
-    if (!isFarmer) {
-        return <div
-            style={
-                {
-                    fontSize: '2rem',
-                    fontWeight: 'bold',
-                    color: '#333',
-                    textAlign: 'center',
-                    marginTop: '5rem',
-                }
-            }>You do not have permission to access this page.</div>;
-    }
+    
 
     return (
         <div className="admin-page">

@@ -106,7 +106,6 @@ const AllProducts = () => {
                         <ProductSkeleton />
                     </div>
                 ) : (
-                    // Render product cards
                     filteredProducts.map((product) => (
                         <CardProducts key={product._id} product={product} />
                     ))

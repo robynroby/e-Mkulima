@@ -154,4 +154,20 @@ router.get("/", async (req, res) => {
     }
 });
 
+// GET products posted by a specific farmer
+router.get('/farmer/:farmerName', async (req, res) => {
+    try {
+        const farmerName = req.params.farmerName;
+
+        // Retrieve products associated with the specified farmer name from the database
+        const products = await Product.find({ farmerName });
+
+        res.json(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 module.exports = router;
