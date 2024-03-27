@@ -13,13 +13,16 @@ const Sidebar = () => {
             <h2>Farmer Dashboard</h2>
             <ul>
                 <li>
-                    <Link to="/products">Manage Products</Link>
+                    <Link to="/fdashboard">Manage Products</Link>
                 </li>
                 <li>
-                    <Link to="/orders">Manage Orders</Link>
+                    <Link to="/manage-orders">Manage Orders</Link>
                 </li>
                 <li>
-                    <Link to="/account">Account Settings</Link>
+                    <Link to="/add-product">Add Product</Link>
+                </li>
+                <li>
+                    <Link to="#">Account Settings</Link>
                 </li>
                 <li>
                     <Link onClick={handleLogout}>logout</Link>

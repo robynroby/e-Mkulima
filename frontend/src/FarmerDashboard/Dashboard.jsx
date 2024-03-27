@@ -1,4 +1,4 @@
-import AdminPage from '../components/AccessControl/AdminPage';
+import AddProductPage from '../components/AccessControl/AddProductPage';
 // import ProductDetail from './ProductDetail';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
@@ -37,9 +37,8 @@ const Dashboard = () => {
         <div className="dashboard">
             <Sidebar />
             <div className="content">
+                <AddProductPage />
                 <ProductList />
-                <AdminPage />
-                {/* <ProductDetail /> */}
             </div>
         </div>
     )

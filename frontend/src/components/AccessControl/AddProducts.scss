@@ -1,9 +1,7 @@
 .admin-container {
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
     max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
 
 
     .error-message {
@@ -37,6 +35,26 @@
 
                 &:focus {
                     border-color: #06220f;
+                }
+            }
+
+            select {
+                width: 100%;
+                padding: 10px;
+                font-size: 12px;
+                border: 1px solid #000000;
+                background: none;
+                // color: #fff;
+                outline: none;
+
+                &:focus {
+                    border-color: #06220f;
+                }
+
+                option {
+                    background: #ffffff;
+                    color: #000000;
+
                 }
             }
         }

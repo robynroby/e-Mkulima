@@ -25,6 +25,21 @@ const ProductList = () => {
         fetchProducts();
     }, []);
 
+    const handleDeleteProduct = async (productId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete product');
+            }
+            // Remove the deleted product from the state
+            setProducts(products.filter(product => product._id !== productId));
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    };
+
     return (
         <div className='product-list'>
             <h2>Product List</h2>
@@ -39,6 +54,7 @@ const ProductList = () => {
                             <h3>{product.title}</h3>
                             <p>{product.desc}</p>
                         </Link>
+                        <button className='delete-button' onClick={() => handleDeleteProduct(product._id)}>Delete</button>
                     </div>
                 ))}
             </div>

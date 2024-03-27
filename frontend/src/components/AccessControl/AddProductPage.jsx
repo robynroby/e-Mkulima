@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import './Admin.scss';
+import './AddProducts.scss';
 
-const AdminPage = () => {
+const AddProductPage = () => {
     const [formData, setFormData] = useState({
         title: '',
         desc: '',
@@ -124,7 +124,7 @@ const AdminPage = () => {
     return (
         <div className="admin-page">
             <div className="admin-container">
-                <h2>Add Product (Admin Page)</h2>
+                <h2>Add Products </h2>
                 <p className="error-message">{errors}</p>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -201,4 +201,4 @@ const AdminPage = () => {
     );
 };
 
-export default AdminPage;
+export default AddProductPage;

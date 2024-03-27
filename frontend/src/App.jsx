@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import Dashboard from './FarmerDashboard/Dashboard';
-import AdminPage from './components/AccessControl/AdminPage';
-import Login from './components/AccessControl/Login';
+import AdminPage from './components/AccessControl/AddProductPage';
+import BuyerSignUp from './components/AccessControl/BuyerSignup';
 import SignUp from './components/AccessControl/FarmerSignup';
+import Login from './components/AccessControl/Login';
 import Account from './components/Account';
 import AllProducts from './components/AllProducts';
 import Cart from './components/Cart';
@@ -16,7 +17,6 @@ import SingleProductPage from './components/SingleProductPage';
 import LoadingScreen from './components/loadingScreen/LoadingScreen';
 import { UserContext } from './context/DataContext';
 import ProtectedRoute from './context/ProtectedRoute';
-import BuyerSignUp from './components/AccessControl/BuyerSignup';
 
 
 const App = () => {
@@ -102,6 +102,14 @@ const App = () => {
     {
       path: "/fdashboard",
       element: <Dashboard />
+    },
+    {
+      path: "/manage-orders",
+      element: <h1>Manage Orders</h1>
+    },
+    {
+      path: "/add-product",
+      element: <AdminPage />
     }
 
     // TODO: Add a 404 page
