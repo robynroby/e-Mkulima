@@ -1,0 +1,53 @@
+.ac-container {
+    padding: 20px;
+    border-radius: 8px;
+    // box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // margin: 50px;
+    flex-direction: column;
+
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        .form-group {
+            margin-bottom: 15px;
+
+            input {
+                width: 100%;
+                padding: 10px;
+                font-size: 12px;
+                border: 1px solid #0D0D0D;
+                background: none;
+                outline: none;
+
+                &:focus {
+                    border-color: #17bf4d;
+                }
+            }
+        }
+
+        button {
+            background-color: #17bf4d;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+
+            &:hover {
+                background-color: #14a643;
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+.card {
+    flex: 0 0 calc(33.333% - 10px);
+    // width: 70px;
+
+
+    .image {
+
+        img {
+            width: 200px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 1px;
+            object-fit: cover;
+            // margin-bottom: 20px;
+        }
+    }
+
+    .title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #000;
+        margin-bottom: 5px;
+        text-transform: capitalize;
+    }
+
+
+    .price {
+        font-size: 17px;
+        font-weight: 400;
+        color: #000;
+        margin-bottom: 20px;
+    }
+
+}
