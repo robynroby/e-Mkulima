@@ -1,12 +1,38 @@
+// import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.scss';
 
 const HomePage = () => {
     const navigate = useNavigate();
+   
+    const featuredProducts = [
+        {
+            id: 1,
+            name: 'Avacados springs',
+            description: 'High quality avacados from the farm.',
+            price: 49.99,
+            image: './img/product/1.png',
+        },
+        {
+            id: 2,
+            name: 'Lettuce',
+            description: 'Fresh lettuce from the farm.',
+            price: 79.99,
+            image: './img/product/2.png',
+        },
+        {
+            id: 3,
+            name: 'Fresh Eggs',
+            description: 'Organic fresh eggs from the farm.',
+            price: 99.99,
+            image: './img/product/3.png',
+        },
+    ];
+
 
     const handleRedirect = () => {
         navigate('/products/page/1');
-    }
+    };
 
     return (
         <div className="home-page">
@@ -28,7 +54,17 @@ const HomePage = () => {
                 <div className="featured-products">
                     <h2>Featured Products</h2>
                     <p>Explore our handpicked selection of top-rated products.</p>
-                    {/* Add your featured products carousel or grid here */}
+                    {/* this should be a caurosel with sliding products  */}
+                    <div className="featured-products-list">
+                        {featuredProducts.map(product => (
+                            <div key={product.id} className="featured-product">
+                                <img src={product.image} alt={product.name} />
+                                <h3>{product.name}</h3>
+                                {/* <p>{product.description}</p> */}
+                                <p>Ksh {product.price}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
