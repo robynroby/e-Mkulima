@@ -1,4 +1,4 @@
-import AddProductPage from '../components/AccessControl/AddProductPage';
+// import AddProductPage from '../components/AccessControl/AddProductPage';
 // import ProductDetail from './ProductDetail';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
@@ -37,7 +37,7 @@ const Dashboard = () => {
         <div className="dashboard">
             <Sidebar />
             <div className="content">
-                <AddProductPage />
+                {/* <AddProductPage /> */}
                 <ProductList />
             </div>
         </div>

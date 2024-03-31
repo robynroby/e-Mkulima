@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './AddProducts.scss';
+import Sidebar from '../../FarmerDashboard/Sidebar';
 
 const AddProductPage = () => {
     const [formData, setFormData] = useState({
@@ -123,6 +124,7 @@ const AddProductPage = () => {
 
     return (
         <div className="admin-page">
+            <Sidebar />
             <div className="admin-container">
                 <h2>Add Products </h2>
                 <p className="error-message">{errors}</p>
