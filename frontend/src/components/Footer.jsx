@@ -1,4 +1,3 @@
-import React from 'react';
 import './Footer.scss';
 import { FaFacebook,FaTwitter, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -17,13 +16,6 @@ const Footer = () => {
                             <button>Subscribe</button>
                         </form>
                     </div>
-                    {/* <div className="footer-section">
-                        <h3>Customer Service</h3>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">FAQs</a></li>
-                        </ul>
-                    </div> */}
                     <div className="footer-section">
                         <h3>Shop</h3>
                         <ul>

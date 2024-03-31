@@ -16,6 +16,10 @@ const CheckoutPage = () => {
         navigate("/loading")
     }
 
+    const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const shipping = 10;
+    const totalAmount = total + shipping;
+
     useEffect(() => {
         const fetchCartData = async () => {
             try {
@@ -140,7 +144,13 @@ const CheckoutPage = () => {
                         required
                     />
                 </div>
-                <button className="pay-button">Pay</button>
+                {loading ? (
+                    <button className="pay-button" disabled>
+                        Loading...
+                    </button>
+                ) : (
+                    <button className="pay-button">Pay Ksh {totalAmount}</button>
+                )}
             </form>
 
             {/* Cart Summary */}
@@ -156,7 +166,7 @@ const CheckoutPage = () => {
                             <div className="item-name">{item.title}</div>
                             <div className="quantity">Quantity: {item.quantity}</div>
                             <div className="item-quantity-price">
-                                <div className="price">Ksh{item.price}</div>
+                                <div className="price">Ksh {item.price}</div>
                                 <div className="seller">product seller: <span>{item.farmerName}</span></div>
                             </div>
                         </div>
@@ -164,9 +174,14 @@ const CheckoutPage = () => {
 
                 ))}
                 <hr className="separator-line" />
+                <div className="shipping total-space">
+                    <span className="label">Shipping</span>
+                    <span className="amount">Ksh {shipping}</span>
+                </div>
+                <hr className="separator-line" />
                 <div className="total">
                     <div className="total-text">Total</div>
-                    <div className="total-price">Ksh {calculateTotal()}</div>
+                    <div className="total-price">Ksh {totalAmount}</div>
                 </div>
             </div>
         </div>

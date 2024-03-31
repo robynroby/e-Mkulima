@@ -7,9 +7,9 @@ const Cart = () => {
     const [loading, setLoading] = useState(true);
     const [removeMsg, setRemoveMsg] = useState('');
 
-    const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const shipping = 100;
-    const total = subtotal + shipping;
+    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    // const shipping = 100;
+    // const total = subtotal + shipping;
 
     const navigate = useNavigate();
 
@@ -185,11 +185,7 @@ const Cart = () => {
                     <div className="totals">
                         <div className="subtotal total-space">
                             <span className="label">Subtotal</span>
-                            <span className="amount">Ksh {subtotal}</span>
-                        </div>
-                        <div className="shipping total-space">
-                            <span className="label">Shipping</span>
-                            <span className="amount">Ksh {shipping}</span>
+                            <span className="amount">Ksh {total}</span>
                         </div>
                         <hr className="separator-line" />
                         <div className="total total-space">
@@ -205,4 +201,3 @@ const Cart = () => {
 };
 
 export default Cart;
-// nevre do that
