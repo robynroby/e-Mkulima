@@ -1,8 +1,6 @@
 // import React, { useContext } from 'react'
-import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.scss';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom'
 
 function Navbar() {
     const navigate = useNavigate();
@@ -22,12 +20,12 @@ function Navbar() {
             <div className="rightLinks">
                 <Link to={'/cart'}>
                     <img src="/cart.svg" alt="" />
-                    {/* <span>3</span> */}
+                    <span>3</span>
                 </Link>
                 <Link onClick={handleLogout}>Logout</Link>
             </div>
         </nav>
     );
-};
+}
 
 export default Navbar;
