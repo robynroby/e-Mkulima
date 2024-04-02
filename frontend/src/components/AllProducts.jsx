@@ -16,24 +16,26 @@ const AllProducts = () => {
 
     useEffect(() => {
         const fetchProducts = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:5000/api/products?page=${currentPage}&latitude=${userLatitude}&longitude=${userLongitude}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to fetch products');
-                }
-                const data = await response.json();
-                setProducts(data);
-                console.log(data)
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching products:', error.message);
-                setLoading(false);
+            const cachedProducts = localStorage.getItem('products');
+            if (cachedProducts) {
+                setProducts(JSON.parse(cachedProducts));
+                setLoading(false); 
             }
+
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5000/api/products?page=${currentPage}&latitude=${userLatitude}&longitude=${userLongitude}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+            const data = await response.json();
+            setProducts(data);
+            console.log(data)
+            setLoading(false);
+            localStorage.setItem('products', JSON.stringify(data));
         };
 
         fetchProducts();
