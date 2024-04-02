@@ -36,7 +36,12 @@ const Login = () => {
                 localStorage.setItem('username', data.username);
                 localStorage.setItem('token', data.accessToken);
                 setLoading(false)
-                navigate('/')
+                
+                if (data.role === 'farmer') {
+                    navigate('/fdashboard');
+                } else {
+                    navigate('/');
+                }
             } else {
                 // Handle login error
                 console.error('Login failed', data);

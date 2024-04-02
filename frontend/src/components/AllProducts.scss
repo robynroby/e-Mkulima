@@ -28,8 +28,12 @@
             color: #fff;
         }
     }
+
     @media (max-width: 768px) {
-        display: none;
+        button {
+            font-size: 0.7rem;
+            margin: 5px;
+        }
     }
 }
 
@@ -69,4 +73,3 @@ hr {
     width: 100%;
     margin-bottom: 20px;
 }
-

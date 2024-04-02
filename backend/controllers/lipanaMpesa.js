@@ -28,7 +28,7 @@ const generateAccessToken = async () => {
 const createToken = async (req, res, next) => {
     try {
         const token = await generateAccessToken();
-        req.token = token; // Add token to request object
+        req.token = token;
         next();
     } catch (error) {
         console.error('Error creating token:', error.message);
@@ -47,7 +47,7 @@ const stkPush = async (req, res) => {
     if (phoneNumber.startsWith("0")) {
         phoneNumber = "254" + phoneNumber.slice(1);
     }
-    else{
+    else {
         phoneNumber = phoneNumber.slice(1);
     }
 
@@ -80,7 +80,7 @@ const stkPush = async (req, res) => {
         PartyA: phoneNumber,
         PartyB: 174379,
         PhoneNumber: phoneNumber,
-        CallBackURL: "https://mydomain.com/path",
+        CallBackURL: "https://5ed8-41-89-227-171.ngrok-free.app/api/mpesa/callback",
         AccountReference: "The GreenX Group",
         TransactionDesc: "Testing stk push",
     };
@@ -100,5 +100,6 @@ const stkPush = async (req, res) => {
             res.status(400).json(err.message);
         });
 };
+
 
 module.exports = { createToken, stkPush };

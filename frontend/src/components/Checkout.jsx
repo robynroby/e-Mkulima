@@ -17,7 +17,7 @@ const CheckoutPage = () => {
     }
 
     const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const shipping = 10;
+    const shipping = 0;
     const totalAmount = total + shipping;
 
     useEffect(() => {
