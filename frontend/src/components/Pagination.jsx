@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './pagination.scss';
 
@@ -17,7 +16,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             <button className='previous-btn' onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
                 Previous
             </button>
-            <span className='page-number'>{currentPage}</span>
+            {/* <span className='page-number'>{currentPage}</span> */}
+            <span className='page-info'>Showing page {currentPage} out of {totalPages}</span>
             <button className='next-btn' onClick={handleNextClick} disabled={currentPage === totalPages}>
                 Next
             </button>

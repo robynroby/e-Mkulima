@@ -28,6 +28,12 @@ app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/mpesa", lipanaMpesa);
 
+app.post("/callback", (req, res) => {
+    const callbackData = req.body;
+    console.log(callbackData);
+    console.log("Callback received");
+});
+
 
 
 

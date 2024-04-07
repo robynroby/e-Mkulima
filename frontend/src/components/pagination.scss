@@ -5,13 +5,18 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    // margin-bottom: 20px;
+
+    span {
+        margin: 0;
+        color: #000;
+        font-size: 12px;
+    }
 
     .page-number {
         padding: 5px;
         color: #000;
         margin: 0 5px;
-        background-color:transparent;
+        background-color: transparent;
         border: 1px solid #ddd;
         cursor: pointer;
         transition: background-color 0.3s ease;
@@ -23,11 +28,12 @@
 
     }
 
-    .previous-btn,.next-btn {
+    .previous-btn,
+    .next-btn {
         padding: 10px;
         color: #000;
         margin: 0 5px;
-        background-color:transparent;
+        background-color: transparent;
         border: 1px solid #ddd;
         cursor: pointer;
         transition: background-color 0.3s ease;

@@ -21,6 +21,7 @@ const AllProducts = () => {
                 setProducts(JSON.parse(cachedProducts));
                 setLoading(false); 
             }
+            console.log(userLatitude, userLongitude)
 
             const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:5000/api/products?page=${currentPage}&latitude=${userLatitude}&longitude=${userLongitude}`, {

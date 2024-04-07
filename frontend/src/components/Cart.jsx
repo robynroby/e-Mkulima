@@ -172,7 +172,7 @@ const Cart = () => {
                                 <span className="item-name">{item.title}</span>
                                 <span className="item-quantity">Quantity: {item.quantity}</span>
                                 <div className="item-by">
-                                    <span className="item-price">Ksh {item.price * item.quantity}</span>
+                                    <span className="item-price">Ksh {item.price}</span>
                                     <span className="item-seller">Sold by: {item.farmerName}</span>
                                 </div>
                                 <button className="remove-link" onClick={() => handleRemoveItem(item.productId)}>Remove</button>

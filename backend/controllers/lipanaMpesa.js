@@ -80,7 +80,7 @@ const stkPush = async (req, res) => {
         PartyA: phoneNumber,
         PartyB: 174379,
         PhoneNumber: phoneNumber,
-        CallBackURL: "https://5ed8-41-89-227-171.ngrok-free.app/api/mpesa/callback",
+        CallBackURL: "https://2432-41-89-227-171.ngrok-free.app/callback",
         AccountReference: "The GreenX Group",
         TransactionDesc: "Testing stk push",
     };
