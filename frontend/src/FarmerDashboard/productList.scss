@@ -18,6 +18,17 @@
         border-collapse: collapse;
         margin-bottom: 20px;
 
+        tr {
+            &:hover {
+                background-color: #f9f9f9;
+            }
+
+            .description {
+                font-size: 14px;
+                color: #282828;
+            }
+        }
+
         th,
         td {
             padding: 12px;
@@ -34,7 +45,7 @@
         }
 
         td img {
-            max-width: 100px;
+            max-width: 80px;
             height: auto;
         }
 

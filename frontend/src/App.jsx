@@ -139,3 +139,7 @@ const App = () => {
 }
 
 export default App
+
+
+// placeholder image
+// https://placehold.co/600x400/png

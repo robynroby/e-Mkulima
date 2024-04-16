@@ -162,7 +162,12 @@ router.get('/farmer/:farmerName', async (req, res) => {
         // Retrieve products associated with the specified farmer name from the database
         const products = await Product.find({ farmerName });
 
-        res.json(products);
+        const productsf = products.map(product => ({
+            ...product._doc,
+            img: product.img.map(imageBuffer => imageBuffer.toString('base64')),
+        }));
+
+        res.status(200).json(productsf);
     } catch (error) {
         console.error('Error fetching products:', error);
         res.status(500).json({ error: 'Internal server error' });

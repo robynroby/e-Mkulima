@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import './productList.scss';
 
 const ProductList = () => {
@@ -41,7 +40,6 @@ const ProductList = () => {
     return (
         <div className='product-list'>
             <h2>Product List</h2>
-            {/* <p>Click on a product to view details</p> */}
             <table className='products-table'>
                 <thead>
                     <tr>
@@ -55,12 +53,21 @@ const ProductList = () => {
                     {products.map(product => (
                         <tr key={product._id}>
                             <td>
-                                {product.img.length > 0 && (
-                                    <img src={`data:image/jpeg;base64,${product.img[0]}`} alt={product.title} />
+                                {product.img && product.img.length > 0 ? (
+                                    <img
+                                        src={`data:image/jpeg;base64,${product.img[0]}`}
+                                        alt={product.title}
+                                        onError={(e) => {
+                                            console.error('Error loading image:', e.target.error);
+                                            e.target.src = 'https://placehold.co/600x400/png'; // Display a placeholder image on error
+                                        }}
+                                    />
+                                ) : (
+                                    <span>No Image</span>
                                 )}
                             </td>
                             <td>{product.title}</td>
-                            <td>{product.desc}</td>
+                            <td className='description'>{product.desc}</td>
                             <td>
                                 <button className='delete-button' onClick={() => handleDeleteProduct(product._id)}>Delete</button>
                             </td>
