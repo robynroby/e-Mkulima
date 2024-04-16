@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import './productList.scss';
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
-
-    const firstImage = products?.img?.length > 0 ? products.img[0] : null;
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -43,21 +41,33 @@ const ProductList = () => {
     return (
         <div className='product-list'>
             <h2>Product List</h2>
-            <p>Click on a product to view details</p>
-            <div className='products'>
-                {products.map(product => (
-                    <div key={product._id} className='product-item'>
-                        <Link to={`/products/${product._id}`}>
-                            {firstImage && (
-                                <img src={`data:image/jpeg;base64,${product.img[0]}`} alt={product.title} />
-                            )}
-                            <h3>{product.title}</h3>
-                            <p>{product.desc}</p>
-                        </Link>
-                        <button className='delete-button' onClick={() => handleDeleteProduct(product._id)}>Delete</button>
-                    </div>
-                ))}
-            </div>
+            {/* <p>Click on a product to view details</p> */}
+            <table className='products-table'>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {products.map(product => (
+                        <tr key={product._id}>
+                            <td>
+                                {product.img.length > 0 && (
+                                    <img src={`data:image/jpeg;base64,${product.img[0]}`} alt={product.title} />
+                                )}
+                            </td>
+                            <td>{product.title}</td>
+                            <td>{product.desc}</td>
+                            <td>
+                                <button className='delete-button' onClick={() => handleDeleteProduct(product._id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

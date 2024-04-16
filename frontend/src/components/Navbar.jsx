@@ -20,7 +20,7 @@ function Navbar() {
             <div className="rightLinks">
                 <Link to={'/cart'}>
                     <img src="/cart.svg" alt="" />
-                    <span>3</span>
+                    {/* <span>3</span> */}
                 </Link>
                 <Link onClick={handleLogout}>Logout</Link>
             </div>

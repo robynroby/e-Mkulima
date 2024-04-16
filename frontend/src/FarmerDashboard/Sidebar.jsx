@@ -11,6 +11,9 @@ const Sidebar = () => {
     return (
         <div className="sidebar">
             <h2>Farmer Dashboard</h2>
+
+            {/* a line across the sidebar */}
+            <hr />
             <ul>
                 <li>
                     <Link to="/fdashboard">Manage Products</Link>

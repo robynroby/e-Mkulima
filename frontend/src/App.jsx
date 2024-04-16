@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import Dashboard from './FarmerDashboard/Dashboard';
+import ManageOrders from './FarmerDashboard/ManageOrders';
 import AdminPage from './components/AccessControl/AddProductPage';
 import BuyerSignUp from './components/AccessControl/BuyerSignup';
 import SignUp from './components/AccessControl/FarmerSignup';
@@ -105,18 +106,23 @@ const App = () => {
     },
     {
       path: "/manage-orders",
-      element: <h1>Manage Orders</h1>
+      element: <ManageOrders />
     },
     {
       path: "/add-product",
       element: <AdminPage />
-    }
+    },
+    {
+      path: "/success",
+      element: <h1>successfully placed an order</h1>
+    },
+
 
     // TODO: Add a 404 page
-    // {
-    //   path: "*",
-    //   element: <NotFound />
-    // }
+    {
+      path: "/error",
+      element: <h1>error placing order</h1>
+    }
 
   ]);
 

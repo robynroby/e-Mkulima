@@ -57,6 +57,7 @@
     .cart-summary {
         width: 50%;
         padding-left: 40px;
+        order: 2; // Move cart-summary below personal-info-form in smaller screens
 
         .cart-header {
             display: flex;
@@ -151,12 +152,16 @@
 
         .personal-info-form {
             margin-bottom: 20px;
-            order: 2;
         }
 
         .cart-summary {
             width: 100%;
             padding-left: 0;
+
+            .item-quantity-price{
+                flex-direction: column;
+                align-items: flex-start!important;
+            }
         }
     }
 }

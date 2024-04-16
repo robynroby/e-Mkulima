@@ -5,25 +5,29 @@ import './Checkout.scss';
 const CheckoutPage = () => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [phone, setPhone] = useState('');
+    const [amount, setAmount] = useState('');
+    const [address, setAddress] = useState('');
+    const [message, setMessage] = useState('');
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleredirect = () => {
-        navigate("/cart")
-    }
+        navigate("/cart");
+    };
 
-    const handleLoadingScreen = () => {
-        navigate("/loading")
-    }
+    // const handleLoadingScreen = () => {
+    //     navigate("/loading", { state: { cartItems } }); // Pass cart items to the loading screen
+    // };
 
-    const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const shipping = 0;
-    const totalAmount = total + shipping;
+    const calculateTotal = () => {
+        return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+    };
 
     useEffect(() => {
+        // Fetch cart data
         const fetchCartData = async () => {
             try {
-                // Replace 'userId' with the actual user ID (you can get it from the authentication process)
                 const userId = localStorage.getItem('userId');
                 const token = localStorage.getItem('token');
 
@@ -39,7 +43,6 @@ const CheckoutPage = () => {
 
                 const cartData = await cartResponse.json();
                 const productsInCart = cartData.products;
-                console.log(productsInCart);
 
                 // Fetch details for each product in the cart
                 const productDetailsPromises = productsInCart.map(async (product) => {
@@ -51,11 +54,9 @@ const CheckoutPage = () => {
                     };
                 });
 
-                // Wait for all product details to be fetched
                 const productsWithDetails = await Promise.all(productDetailsPromises);
 
                 setCartItems(productsWithDetails);
-                console.log(productsWithDetails);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching cart data:', error.message);
@@ -66,34 +67,44 @@ const CheckoutPage = () => {
         fetchCartData();
     }, []);
 
-
-    const calculateTotal = () => {
-        // Calculate the total price of items in the cart
-        return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
-    };
-
-    const [phone, setPhone] = useState('');
-    const [amount, setAmount] = useState('');
-    const [message, setMessage] = useState('');
-
-    const handlePhoneChange = (e) => {
-        setPhone(e.target.value);
-    };
-
-    const handleCalculateTotal = () => {
-        const totalAmount = calculateTotal();
-        setAmount(totalAmount);
-    };
-
-    useEffect(() => {
-        handleCalculateTotal();
-    }, [cartItems]);
-
-
-    const handlePay = (e) => {
-        console.log(amount)
-        console.log(phone)
+    const handlePay = async (e) => {
         e.preventDefault();
+
+        try {
+            const orderData = {
+                userId: localStorage.getItem('userId'),
+                products: cartItems.map((item) => ({
+                    productId: item.id,
+                    quantity: item.quantity,
+                })),
+                amount: calculateTotal(),
+                address: address,
+                status: "pending",
+            };
+
+            const response = await fetch("http://localhost:5000/api/orders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "token": `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify(orderData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error placing order');
+            }
+
+            const data = await response.json();
+            console.log("Order placed successfully:", data);
+
+            setMessage("Order placed successfully!");
+            // handleLoadingScreen();
+        } catch (error) {
+            console.error("Error placing order:", error);
+            setMessage('Payment failed! Please try again.');
+        }
+    
         fetch("http://localhost:5000/api/mpesa", {
             method: "POST",
             headers: {
@@ -105,14 +116,14 @@ const CheckoutPage = () => {
             .then((data) => {
                 console.log(data);
                 setMessage("Enter your pin to complete the transaction.", data.CustomerMessage);
-                handleLoadingScreen();
+                // handleLoadingScreen();
             })
             .catch((error) => {
                 console.error(error);
                 setMessage('Payment failed! please try again.');
             });
+        
     };
-
     return (
         <div className="checkout-page">
             {/* Personal Information Form */}
@@ -132,7 +143,14 @@ const CheckoutPage = () => {
                 </div>
 
                 <div className="form-group">
-                    <input type="text" placeholder="City" id="city" />
+                    <input
+                        type="text"
+                        placeholder="Address"
+                        id="address"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        required
+                    />
                 </div>
                 <div className="form-group">
                     <input
@@ -140,7 +158,7 @@ const CheckoutPage = () => {
                         placeholder="Phone Number"
                         id="phone"
                         value={phone}
-                        onChange={handlePhoneChange}
+                        onChange={(e) => setPhone(e.target.value)}
                         required
                     />
                 </div>
@@ -149,7 +167,7 @@ const CheckoutPage = () => {
                         Loading...
                     </button>
                 ) : (
-                    <button className="pay-button">Pay Ksh {totalAmount}</button>
+                    <button className="pay-button">Pay Ksh {calculateTotal()}</button>
                 )}
             </form>
 
@@ -171,17 +189,16 @@ const CheckoutPage = () => {
                             </div>
                         </div>
                     </div>
-
                 ))}
                 <hr className="separator-line" />
                 <div className="shipping total-space">
                     <span className="label">Shipping</span>
-                    <span className="amount">Ksh {shipping}</span>
+                    <span className="amount">Ksh {0 /* shipping */}</span>
                 </div>
                 <hr className="separator-line" />
                 <div className="total">
                     <div className="total-text">Total</div>
-                    <div className="total-price">Ksh {totalAmount}</div>
+                    <div className="total-price">Ksh {calculateTotal()}</div>
                 </div>
             </div>
         </div>

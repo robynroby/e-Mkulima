@@ -1,4 +1,6 @@
 const Order = require("../models/Order");
+const Product = require("../models/Product");
+
 const {
     verifyToken,
     verifyTokenAndAuthorization,
@@ -55,8 +57,18 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
         res.status(500).json(err);
     }
 });
+// get all orders of a farmer
+router.get("/farmer/:userId", verifyFarmer, async (req, res) => {
+    try {
+        const orders = await Order.find({ userId: req.params.userId });
+        res.status(200).json(orders);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
- //GET ALL
+
+//GET ALL
 router.get("/", verifyFarmer, async (req, res) => {
     try {
         const orders = await Order.find();
@@ -67,7 +79,7 @@ router.get("/", verifyFarmer, async (req, res) => {
 });
 
 // GET MONTHLY INCOME
-router.get("/income",verifyFarmer, verifyTokenAndAdmin, async (req, res) => {
+router.get("/income", verifyFarmer, verifyTokenAndAdmin, async (req, res) => {
     const date = new Date();
     const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
     const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
