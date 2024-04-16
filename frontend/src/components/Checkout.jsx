@@ -98,7 +98,7 @@ const CheckoutPage = () => {
             const data = await response.json();
             console.log("Order placed successfully:", data);
 
-            setMessage("Order placed successfully!");
+            // setMessage("Order placed successfully!");
             // handleLoadingScreen();
         } catch (error) {
             console.error("Error placing order:", error);
@@ -110,7 +110,7 @@ const CheckoutPage = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ phone: phone, amount: amount }),
+            body: JSON.stringify({ phone: phone, amount: calculateTotal() }),
         })
             .then((response) => response.json())
             .then((data) => {

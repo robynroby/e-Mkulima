@@ -15,9 +15,15 @@
 
         th,
         td {
-            border: 1px solid #ddd;
+            border: 1px solid #e7e7e7;
             padding: 8px;
             text-align: left;
+            font-size: 14px;
+
+            ul{
+                list-style-type: none;
+                padding: 0;
+            }
         }
 
         th {

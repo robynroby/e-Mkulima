@@ -74,3 +74,4 @@ router.post('/login', async (req, res) => {
 
 
 module.exports = router;
+// todo:buyers pay partial amount of the total
