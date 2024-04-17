@@ -106,8 +106,7 @@ const AddProductPage = () => {
             if (!response.ok) {
                 const errorMessage = await response.text();
                 throw new Error(
-                    `HTTP error! Status: ${response.status} ${response.statusText
-                    }. Server error message: ${errorMessage}`
+                    errorMessage || 'Something went wrong. Please try again.'
                 );
             }
 
@@ -122,9 +121,9 @@ const AddProductPage = () => {
             });
             setErrors('');
         } catch (error) {
-            console.error('Error adding product:', error.message);
+            console.log('Error adding product:', error);
             console.log(error.message);
-            setErrors( error.message);
+            setErrors(error.message.replace(/"/g, ''));
         } finally {
             setIsSubmitting(false);
         }
