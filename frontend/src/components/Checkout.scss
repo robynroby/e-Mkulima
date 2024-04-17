@@ -43,10 +43,15 @@
             }
         }
 
-        .pay-msg p{
+        .pay-msg p {
             font-size: 13px;
             margin-bottom: 5px;
             color: #565656;
+
+            span {
+                font-weight: bold;
+                color: hsl(144, 69%, 38%);
+            }
         }
 
         .pay-button {
@@ -63,7 +68,7 @@
     .cart-summary {
         width: 50%;
         padding-left: 40px;
-        order: 2; // Move cart-summary below personal-info-form in smaller screens
+        order: 2; 
 
         .cart-header {
             display: flex;
@@ -164,9 +169,9 @@
             width: 100%;
             padding-left: 0;
 
-            .item-quantity-price{
+            .item-quantity-price {
                 flex-direction: column;
-                align-items: flex-start!important;
+                align-items: flex-start !important;
             }
         }
     }
