@@ -173,7 +173,7 @@ const CheckoutPage = () => {
                             <p>You are required to pay 40% of the total amount as initial payment.</p>
                             <p>Pay the final amount after you receive the payments</p>
                             <p>Click the button below to pay <span>Ksh {initialAmount}</span></p>
-                            <button className="pay-button">Pay</button>
+                            <button className="pay-button">Pay Initial Amount</button>
                         </div>
                 )}
             </form>

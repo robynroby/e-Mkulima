@@ -18,6 +18,7 @@ import SingleProductPage from './components/SingleProductPage';
 import LoadingScreen from './components/loadingScreen/LoadingScreen';
 import { UserContext } from './context/DataContext';
 import ProtectedRoute from './context/ProtectedRoute';
+import PaymentRemainderPage from './components/PaymentRemainderPage';
 
 
 const App = () => {
@@ -83,6 +84,10 @@ const App = () => {
         {
           path: "/loading",
           element: <LoadingScreen />
+        },
+        {
+          path: "/payment-confirmation",
+          element: <PaymentRemainderPage />
         }
       ]
 
