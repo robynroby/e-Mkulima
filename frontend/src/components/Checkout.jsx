@@ -111,7 +111,7 @@ const CheckoutPage = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ phone: phone, amount: calculateTotal() }),
+            body: JSON.stringify({ phone: phone, amount: initialAmount }),
         })
             .then((response) => response.json())
             .then((data) => {
@@ -172,7 +172,7 @@ const CheckoutPage = () => {
                         <div className='pay-msg'>
                             <p>You are required to pay 40% of the total amount as initial payment.</p>
                             <p>Pay the final amount after you receive the payments</p>
-                            <p>Click the button below to pay <span>Ksh {initialAmount}</span></p>
+                            <p>Click the button below to pay <span> Ksh {initialAmount}</span></p>
                             <button className="pay-button">Pay Initial Amount</button>
                         </div>
                 )}
