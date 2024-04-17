@@ -15,7 +15,6 @@ function Navbar() {
             <ul className="navLinks">
                 <li><Link to={"/"}>Home</Link></li>
                 <li><Link to={'/products/page/1'}>Products</Link></li>
-                <li><Link to={"/payment-confirmation"}>Complete Payment</Link></li>
                 <li><Link to={"/account"}>Account</Link></li>
             </ul>
             <div className="rightLinks">

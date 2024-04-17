@@ -35,7 +35,10 @@ router.post("/", verifyFarmer, upload.array('img', 5), async (req, res) => {
         res.status(200).json(savedProduct);
     } catch (err) {
         if (err.code === 11000) {
-            res.status(400).json({ error: "Duplicate product title. Choose a unique title." });
+            const errorMessage = "Duplicate product title. Choose a unique title.";
+
+            // Send the specific error response with a 400 status
+            res.status(400).json({ error: errorMessage });
         } else {
             res.status(500).json({ error: "Internal Server Error", details: err.message });
         }

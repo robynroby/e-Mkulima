@@ -112,10 +112,19 @@ const AddProductPage = () => {
             }
 
             alert('Product added successfully!');
+            // if successful, clear the form
+            setFormData({
+                title: '',
+                desc: '',
+                img: [],
+                price: '',
+                category: '',
+            });
+            setErrors('');
         } catch (error) {
-            console.error('Error adding product:', error);
+            console.error('Error adding product:', error.message);
             console.log(error.message);
-            setErrors('Error adding product');
+            setErrors( error.message);
         } finally {
             setIsSubmitting(false);
         }
