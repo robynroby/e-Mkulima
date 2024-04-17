@@ -21,7 +21,7 @@
             input {
                 width: 100%;
                 padding: 10px;
-                color: #A9ABBD;
+                color: #000000;
                 font-size: 14px;
                 border: 0.5px solid #000;
                 margin-bottom: 10px;
@@ -41,6 +41,12 @@
                     flex: 1;
                 }
             }
+        }
+
+        .pay-msg p{
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #565656;
         }
 
         .pay-button {

@@ -6,7 +6,6 @@ const CheckoutPage = () => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [phone, setPhone] = useState('');
-    const [amount, setAmount] = useState('');
     const [address, setAddress] = useState('');
     const [message, setMessage] = useState('');
 
@@ -23,6 +22,8 @@ const CheckoutPage = () => {
     const calculateTotal = () => {
         return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
     };
+
+    const initialAmount = calculateTotal() * 0.4;
 
     useEffect(() => {
         // Fetch cart data
@@ -69,7 +70,7 @@ const CheckoutPage = () => {
 
     const handlePay = async (e) => {
         e.preventDefault();
-
+        setLoading(true);
         try {
             const orderData = {
                 userId: localStorage.getItem('userId'),
@@ -77,7 +78,7 @@ const CheckoutPage = () => {
                     productId: item.id,
                     quantity: item.quantity,
                 })),
-                amount: calculateTotal(),
+                amount: initialAmount,
                 address: address,
                 status: "pending",
             };
@@ -167,7 +168,12 @@ const CheckoutPage = () => {
                         Loading...
                     </button>
                 ) : (
-                    <button className="pay-button">Pay Ksh {calculateTotal()}</button>
+                    
+                        <div className='pay-msg'>
+                            <p>You are required to pay 40% of the total amount as initial payment.</p>
+                            <p>Click the button below to pay Ksh {initialAmount}</p>
+                            <button className="pay-button">Pay</button>
+                        </div>
                 )}
             </form>
 
