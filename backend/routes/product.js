@@ -134,7 +134,7 @@ router.get("/", async (req, res) => {
             const query = {
                 location: {
                     $geoWithin: {
-                        $centerSphere: [userLocation.coordinates, 40000 / 6371000], 
+                        $centerSphere: [userLocation.coordinates, 4000 / 6371000], 
                     },
                 },
             };
