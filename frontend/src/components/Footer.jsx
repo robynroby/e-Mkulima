@@ -22,6 +22,7 @@ const Footer = () => {
                             <li><Link to={'/products'}>Products</Link></li>
                             <li><Link href="#">Sales</Link></li>
                             <li><Link href="#">New Arrivals</Link></li>
+                            <li><Link to={'/payment-confirmation'}>Complete your Payment</Link></li>
                         </ul>
                     </div>
                     <div className="socials">

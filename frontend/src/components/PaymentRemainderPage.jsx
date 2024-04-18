@@ -137,7 +137,7 @@ const PaymentRemainderPage = () => {
                 ) : (
 
                     <div className='pay-msg'>
-                        <p>Click the button below to pay the remaining<span> Ksh {totalAmount}</span></p>
+                        <p>Click the button below to pay the remaining amount of<span> Ksh {totalAmount}</span></p>
                         <button className="pay-button">Pay remaining Amount</button>
                     </div>
                 )}

@@ -23,6 +23,7 @@ const SingleProductPage = () => {
             const data = await response.json();
             // Set the product details in state
             setAddress(data);
+            console.log('Address:', data);
             // setLoading(false);
         } catch (error) {
             console.error('Error fetching address:', error.message);
