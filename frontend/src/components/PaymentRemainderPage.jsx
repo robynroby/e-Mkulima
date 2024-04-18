@@ -23,7 +23,8 @@ const PaymentRemainderPage = () => {
         return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
     };
 
-    const totalAmount = calculateTotal() * 0.6;
+    const totalAmounted = calculateTotal() * 0.6;
+    const totalAmount = Math.round(totalAmounted);
 
     useEffect(() => {
         // Fetch cart data

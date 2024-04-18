@@ -23,7 +23,9 @@ const CheckoutPage = () => {
         return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
     };
 
-    const initialAmount = calculateTotal() * 0.4;
+    const partAmount = calculateTotal() * 0.4;
+    // this initial amount is 40% of the total amount and should be a whole number convert it to a whole number
+    const initialAmount = Math.round(partAmount);
 
     useEffect(() => {
         // Fetch cart data
