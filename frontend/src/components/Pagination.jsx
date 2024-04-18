@@ -6,17 +6,29 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
     const handleNextClick = () => {
         if (currentPage < totalPages) {
-            onPageChange(currentPage + 1);
-            navigate(`/products/page/${currentPage + 1}`);
+            const nextPage = currentPage + 1;
+            setCurrentPage(nextPage);
+            // Trigger onPageChange to fetch products for the next page
+            onPageChange(nextPage);
+            // Update navigation to the next page route
+            navigate(`/products/page/${nextPage}`);
+        }
+    };
+
+
+    const handlePreviousClick = () => {
+        const previousPage = currentPage - 1;
+        if (previousPage >= 1) {
+            onPageChange(previousPage);
+            navigate(`/products/page/${previousPage}`);
         }
     };
 
     return (
         <div className="pagination">
-            <button className='previous-btn' onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+            <button className='previous-btn' onClick={handlePreviousClick} disabled={currentPage === 1}>
                 Previous
             </button>
-            {/* <span className='page-number'>{currentPage}</span> */}
             <span className='page-info'>Showing page {currentPage} out of {totalPages}</span>
             <button className='next-btn' onClick={handleNextClick} disabled={currentPage === totalPages}>
                 Next
