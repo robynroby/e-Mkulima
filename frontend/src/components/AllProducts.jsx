@@ -16,25 +16,19 @@ const AllProducts = () => {
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const cachedProducts = localStorage.getItem('products');
-            if (cachedProducts) {
-                setProducts(JSON.parse(cachedProducts));
-                setLoading(false); 
-            }
-            console.log(userLatitude, userLongitude)
-
             const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:5000/api/products?page=${currentPage}&latitude=${userLatitude}&longitude=${userLongitude}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
+
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
             }
+
             const data = await response.json();
             setProducts(data);
-            console.log(data)
             setLoading(false);
             localStorage.setItem('products', JSON.stringify(data));
         };
@@ -51,7 +45,8 @@ const AllProducts = () => {
         if (currentCategory === 'All') {
             setFilteredProducts(products);
         } else {
-            const filtered = products.filter(product => product.category === currentCategory);
+            const regex = new RegExp(currentCategory, 'i'); // Case-insensitive matching
+            const filtered = products.filter(product => regex.test(product.category));
             setFilteredProducts(filtered);
         }
     }, [products, currentCategory]);
@@ -101,12 +96,9 @@ const AllProducts = () => {
             <div className="products">
                 {loading ? (
                     <div className='skeleton-container'>
-                        <ProductSkeleton />
-                        <ProductSkeleton />
-                        <ProductSkeleton />
-                        <ProductSkeleton />
-                        <ProductSkeleton />
-                        <ProductSkeleton />
+                        {[...Array(itemsPerPage)].map((_, index) => (
+                            <ProductSkeleton key={index} />
+                        ))}
                     </div>
                 ) : (
                     filteredProducts.map((product) => (
